@@ -79,8 +79,16 @@ namespace BarelyAPI
         float masterVolume = 1.0f;
         public float MasterVolume
         {
-            get { return (masterVolume != 0.0f) ? 20.0f * Mathf.Log10(masterVolume) : float.NegativeInfinity; }
-            set { masterVolume = (value > AudioProperties.MIN_VOLUME_DB) ? Mathf.Pow(10, 0.05f * value) : 0.0f; }
+            get { return masterVolume; }
+            set { masterVolume = value; }
+        }
+
+        [SerializeField]
+        bool playOnAwake;
+        public bool PlayOnAwake
+        {
+            get { return playOnAwake; }
+            set { playOnAwake = value; }
         }
 
         // Arousal (Passive - Active)
@@ -149,6 +157,9 @@ namespace BarelyAPI
             audioSource.hideFlags = HideFlags.HideInInspector;
             audioSource.panLevel = 0.0f;
             audioSource.Stop();
+
+            if (playOnAwake)
+                Play();
         }
 
         void Update()

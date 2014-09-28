@@ -76,8 +76,8 @@ namespace BarelyAPI
         protected float volume;
         public float Volume
         {
-            get { return (volume != 0.0f) ? 20.0f * Mathf.Log10(volume) : float.NegativeInfinity; }
-            set { volume = (value > AudioProperties.MIN_VOLUME_DB) ? Mathf.Pow(10, 0.05f * value) : 0.0f; }
+            get { return volume; }
+            set { volume = value; }
         }
 
         public Instrument(InstrumentMeta meta)

@@ -35,7 +35,8 @@ namespace BarelyAPI
             //DrawDefaultInspector();
 
             // Volume
-            musician.MasterVolume = EditorGUILayout.Slider(new GUIContent("Volume", "Master volume in dBs."), musician.MasterVolume, AudioProperties.MIN_VOLUME_DB, AudioProperties.MAX_VOLUME_DB);
+            musician.MasterVolume = EditorGUILayout.Slider(new GUIContent("Volume", "Master volume."), musician.MasterVolume, 0.0f, 1.0f);
+            musician.PlayOnAwake = EditorGUILayout.Toggle("Play On Awake", musician.PlayOnAwake);
 
             EditorGUILayout.Space();
 

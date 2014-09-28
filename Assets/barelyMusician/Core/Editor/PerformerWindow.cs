@@ -68,7 +68,7 @@ namespace BarelyAPI
         {
             EditorGUILayout.LabelField("Instrument");
             EditorGUI.indentLevel++;
-            instrumentMeta.Volume = EditorGUILayout.Slider("Volume", instrumentMeta.Volume, AudioProperties.MIN_VOLUME_DB, AudioProperties.MAX_VOLUME_DB);
+            instrumentMeta.Volume = EditorGUILayout.Slider("Volume", instrumentMeta.Volume, 0.0f, 1.0f);
             EditorGUILayout.Space();
             instrumentMeta.Type = EditorGUILayout.Popup("Type", instrumentMeta.Type, InstrumentFactory.InstrumentTypes);
             EditorGUILayout.Space();
