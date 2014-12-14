@@ -96,18 +96,6 @@ namespace BarelyAPI
             meso.Restart();
         }
 
-        public float GetOutput()
-        {
-            float output = 0.0f;
-
-            foreach (Performer performer in performers.Values)
-            {
-                output += performer.Output;
-            }
-
-            return output;
-        }
-
         public bool IsPerformerActive(string name)
         {
             Performer performer = null;

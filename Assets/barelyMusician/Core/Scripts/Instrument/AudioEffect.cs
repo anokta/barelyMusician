@@ -26,6 +26,6 @@ namespace BarelyAPI
 
         public abstract void Apply(TimbreProperties timbreProperties);
 
-        public abstract float Process(float sample);
+        public abstract void ProcessBlock(ref float[] data, int channels);
     }
 }

@@ -28,7 +28,7 @@ public class NoiseMaker : MonoBehaviour
 
     void OnGUI()
     {
-        if (musician.IsPlaying || musician.IsPaused)
+        if (musician.IsPlaying)
         {
             GUI.depth = -100;
 

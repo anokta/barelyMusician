@@ -36,9 +36,16 @@ namespace BarelyAPI
             Frequency = 10.0f * (0.5f * timbreProperties.Brightness + 0.5f * timbreProperties.Tense);
         }
 
-        public override float Process(float sample)
+        public override void ProcessBlock(ref float[] data, int channels)
         {
-            return sample * osc.Next();
+
+            for (int i = 0; i < data.Length; i += channels)
+            {
+                data[i] = data[i] * osc.Next();
+
+                if (channels == 2)
+                    data[i + 1] = data[i];
+            }
         }
     }
 }

@@ -12,49 +12,38 @@ namespace BarelyAPI
 {
     public class SamplerInstrument : MelodicInstrument
     {
-        public bool Loop
+        [SerializeField]
+        protected AudioClip sample;
+
+        [SerializeField]
+        protected bool sustained;
+        public bool Sustained
         {
-            get { return ((Sampler)voices[0].Ugen).Loop; }
-            set    
+            get { return sustained; }
+            set
             {
+                sustained = value;
+
                 foreach (Voice voice in voices)
                 {
-                    ((Sampler)voice.Ugen).Loop = value;
+                    ((Sampler)voice.Ugen).Loop = sustained;
                 }
             }
         }
 
-        public SamplerInstrument(InstrumentMeta meta)
-            : base(meta)
+        [SerializeField]
+        protected NoteIndex rootNote;
+
+        protected override void Awake()
         {
-        }
+            base.Awake();
 
-        public override void SetInstrumentProperties(InstrumentMeta meta)
-        {
-            base.SetInstrumentProperties(meta);
-
-            if (voices.Count != meta.VoiceCount)
+            for (int i = 0; i < voiceCount; ++i)
             {
-                voices.Clear();
+                voices.Add(new Voice(new Sampler(sample, sustained, new Note((int)rootNote).Pitch), new Envelope(attack, decay, sustain, release)));
+            }
 
-                for (int i = 0; i < meta.VoiceCount; ++i)
-                {
-                    voices.Add(new Voice(new Sampler(meta.Sample, meta.Sustained, new Note(meta.RootIndex).Pitch), new Envelope(meta.Attack, meta.Decay, meta.Sustain, meta.Release)));
-                }
-            }
-            else
-            {
-                foreach (Voice voice in voices)
-                {
-                    ((Sampler)voice.Ugen).Sample = meta.Sample;
-                    ((Sampler)voice.Ugen).Loop = meta.Sustained;
-                    ((Sampler)voice.Ugen).RootFrequency = new Note(meta.RootIndex).Pitch;
-                    voice.Envelope.Attack = meta.Attack;
-                    voice.Envelope.Decay = meta.Decay;
-                    voice.Envelope.Sustain = meta.Sustain;
-                    voice.Envelope.Release = meta.Release;
-                }
-            }
+            StopAllNotes();
         }
     }
 }

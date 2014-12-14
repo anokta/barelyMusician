@@ -13,54 +13,42 @@ namespace BarelyAPI
 {
     public class PercussiveInstrument : Instrument
     {
+        [SerializeField]
+        protected AudioClip[] samples;
+
+        [SerializeField]
+        protected bool sustained;
         public bool Sustained
         {
-            get { return voices[0].Envelope.Release == 0.0f; }
+            get { return sustained; }
             set
             {
+                sustained = value;
+
                 foreach (Voice voice in voices)
                 {
-                    voice.Envelope.Release = value ? 0.0f : ((Sampler)voice.Ugen).SampleLength;
+                    voice.Envelope.Release = sustained ? 0.0f : ((Sampler)voice.Ugen).SampleLength;
                 }
             }
         }
 
-        int rootIndex;
+        [SerializeField]
+        protected NoteIndex rootNote;
 
-        public PercussiveInstrument(InstrumentMeta meta)
-            : base(meta)
+        protected override void Awake()
         {
-            rootIndex = meta.RootIndex;
-        }
+            base.Awake();
 
-        public override void SetInstrumentProperties(InstrumentMeta meta)
-        {
-            base.SetInstrumentProperties(meta);
-
-            if (voices.Count != meta.VoiceCount)
+            for (int i = 0; i < samples.Length; ++i)
             {
-                voices.Clear();
-
-                for (int i = 0; i < meta.Samples.Length; ++i)
-                {
-                    voices.Add(new Voice(new Sampler(meta.Samples[i], false, new Note(meta.RootIndex).Pitch), new Envelope(Instrument.MIN_ONSET, 0.0f, 1.0f, (meta.Sustained || meta.Samples[i] == null) ? 0.0f : (meta.Samples[i].length / meta.Samples[i].channels))));
-                }
-            }
-            else
-            {
-                for (int i = 0; i < meta.Samples.Length; ++i)
-                {
-                    ((Sampler)voices[i].Ugen).Sample = meta.Samples[i];
-                    ((Sampler)voices[i].Ugen).RootFrequency = new Note(meta.RootIndex).Pitch;
-                    voices[i].Envelope.Release = meta.Sustained ? 0.0f : (meta.Samples[i].length / meta.Samples[i].channels);
-                }
+                voices.Add(new Voice(new Sampler(samples[i], false, new Note((int)rootNote).Pitch), new Envelope(Instrument.MIN_ONSET, 0.0f, 1.0f, (sustained || samples[i] == null) ? 0.0f : (samples[i].length / samples[i].channels))));
             }
         }
 
         // TODO: Note structure should be restructured!
         protected override void noteOn(Note note)
         {
-            int index = (int)(note.Index - rootIndex) / 12;
+            int index = (int)(note.Index - (int)rootNote) / 12;
             if (index >= 0 && index < voices.Count)
             {
                 voices[index].Gain = note.Loudness;
@@ -72,7 +60,7 @@ namespace BarelyAPI
         {
             if (Sustained)
             {
-                int index = (int)(note.Index - rootIndex);
+                int index = (int)(note.Index - (int)rootNote);
                 if (index >= 0 && index < voices.Count)
                 {
                     voices[index].Stop();

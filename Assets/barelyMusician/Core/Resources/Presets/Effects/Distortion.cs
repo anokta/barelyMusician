@@ -35,9 +35,15 @@ namespace BarelyAPI
             levelApplied = Mathf.Max(1.0f, (0.1f * timbreProperties.Brightness + 0.9f * timbreProperties.Tense) * level);
         }
 
-        public override float Process(float sample)
+        public override void ProcessBlock(ref float[] data, int channels)
         {
-            return Mathf.Clamp(sample * levelApplied, -1.0f, 1.0f) / levelApplied;
+            for (int i = 0; i < data.Length; i += channels)
+            {
+                data[i] = Mathf.Clamp(data[i] * levelApplied, -1.0f, 1.0f) / levelApplied;
+
+                if (channels == 2)
+                    data[i + 1] = data[i];
+            }
         }
     }
 }

@@ -13,12 +13,6 @@ namespace BarelyAPI
 {
     public class Performer
     {
-        // Audio output
-        public float Output
-        {
-            get { return instrument.ProcessNext(); }
-        }
-
         bool active;
         public bool Active
         {

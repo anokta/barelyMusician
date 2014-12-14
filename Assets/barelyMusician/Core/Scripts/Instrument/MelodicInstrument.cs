@@ -13,13 +13,10 @@ namespace BarelyAPI
 {
     public abstract class MelodicInstrument : Instrument
     {
-        LinkedList<Voice> activeList, freeList;
+        [SerializeField]
+        protected int voiceCount;
 
-        public MelodicInstrument(InstrumentMeta meta)
-            : base(meta)
-        {
-            StopAllNotes();
-        }
+        LinkedList<Voice> activeList, freeList;
 
         protected override void noteOn(Note note)
         {

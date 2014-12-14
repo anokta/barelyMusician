@@ -12,7 +12,7 @@ namespace BarelyAPI
 {
     public static class AudioProperties
     {
-        public static int SAMPLE_RATE = AudioSettings.outputSampleRate = 44100;
+        public static int SAMPLE_RATE = 44100; //AudioSettings.outputSampleRate = 44100;
         public static float INTERVAL = 1.0f / SAMPLE_RATE;
     }
 }

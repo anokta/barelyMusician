@@ -10,51 +10,26 @@ using System.Collections;
 
 namespace BarelyAPI
 {
-    public class Sequencer
+    public class Sequencer : MonoBehaviour
     {
         // Event dispatcher
         public delegate void SequencerEvent(Sequencer sequencer);
         event SequencerEvent OnNextSection, OnNextBar, OnNextBeat, OnNextPulse;
         
         // Beats per minute
-        int bpm;
-        public int Tempo
-        {
-            get { return bpm; }
-            set { bpm = value; }
-        }
+        public int Tempo = 120;
 
         // Bars per section
-        int barCount;
-        public int BarCount
-        {
-            get { return barCount; }
-            set { barCount = value; }
-        }
+        public int BarCount = 4;
 
         // Beats per bar
-        int beatCount;
-        public int BeatCount
-        {
-            get { return beatCount; }
-            set { beatCount = value; }
-        }
+        public int BeatCount = 4;
 
         // Clock frequency per bar
-        int pulseCount;
-        public int PulseCount
-        {
-            get { return pulseCount; }
-            set { pulseCount = value; }
-        }
+        public int PulseCount = 32;
 
         // Note type (quarter, eigth etc.)
-        int noteType;
-        public NoteType NoteType
-        {
-            get { return (NoteType)noteType; }
-            set { noteType = (int)value; }
-        }
+        public NoteType NoteType = NoteType.QUARTER_NOTE;
 
         // Current state
         int currentSection;
@@ -68,14 +43,14 @@ namespace BarelyAPI
         public int CurrentBar
         {
             get { return currentBar; }
-            set { currentBar = value % barCount; }
+            set { currentBar = value % BarCount; }
         }
 
         int currentBeat;
         public int CurrentBeat
         {
             get { return currentBeat; }
-            set { currentBeat = value % beatCount; }
+            set { currentBeat = value % BeatCount; }
         }
 
         int currentPulse;
@@ -88,46 +63,57 @@ namespace BarelyAPI
         // Section length (in pulses)
         public int SectionLength
         {
-            get { return barCount * BarLength; }
+            get { return BarCount * BarLength; }
         }
 
         // Bar length (in pulses)
         public int BarLength
         {
-            get { return beatCount * BeatLength; }
+            get { return BeatCount * BeatLength; }
         }
 
         // Beat length (in pulses)
         public int BeatLength
         {
-            get { return pulseCount / noteType; }
+            get { return PulseCount / (int) NoteType; }
         }
         
         public int MinuteToSections(float minutes)
         {
-            return Mathf.RoundToInt((minutes * bpm * noteType / 4.0f) / (barCount * beatCount));
+            return Mathf.RoundToInt((minutes * Tempo * (int) NoteType / 4.0f) / (BarCount * BeatCount));
         }
 
         float pulseInterval
         {
-            get { return 240.0f * AudioProperties.SAMPLE_RATE / pulseCount / bpm; }
+            get { return 240.0f * AudioProperties.SAMPLE_RATE / PulseCount / Tempo; }
         }
 
+        AudioSource audioSource;
         float phasor;
 
-        public Sequencer(int tempo = 120, int barCount = 4, int beatCount = 4, NoteType noteType = NoteType.QUARTER_NOTE, int pulseCount = 32)
+        void Awake()
         {
-            Tempo = tempo;
-            BarCount = barCount;
-            BeatCount = beatCount;
-            NoteType = noteType;
-            PulseCount = pulseCount;
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.hideFlags = HideFlags.HideInInspector;
+            audioSource.panLevel = 0.0f;
 
-            Reset();
+            Stop();
         }
 
-        public void Reset()
+        public void Start()
         {
+            audioSource.Play();
+        }
+
+        public void Pause()
+        {
+            audioSource.Pause();
+        }
+
+        public void Stop()
+        {
+            audioSource.Stop();
+
             currentSection = -1;
             currentBar = -1;
             currentBeat = -1;
@@ -178,9 +164,9 @@ namespace BarelyAPI
         }
 
         // Audio callback
-        public void Update(int bufferSize)
+        void OnAudioFilterRead(float[] data, int channels)
         {
-            for (int i = 0; i < bufferSize; ++i)
+            for (int i = 0; i < data.Length; i += channels)
             {
                 if (phasor++ >= pulseInterval)
                 {

@@ -22,7 +22,7 @@ namespace BarelyAPI
         public bool performerFoldout;
 
         public List<string> PerformerNames;
-        public List<InstrumentMeta> Instruments;
+        public List<Instrument> Instruments;
         public List<int> MicroGeneratorTypes;
 
         // Tempo (BPM)
@@ -126,6 +126,10 @@ namespace BarelyAPI
         {
             get { return sequencer; }
         }
+        public bool IsPlaying
+        {
+            get { return sequencer.audio.isPlaying; }
+        }
 
         Ensemble ensemble;
         public Ensemble Ensemble
@@ -135,28 +139,14 @@ namespace BarelyAPI
 
         Conductor conductor;
 
-        AudioSource audioSource;
-        public bool IsPlaying
-        {
-            get { return (audioSource == null) ? false : audioSource.isPlaying; }
-        }
-        bool paused;
-        public bool IsPaused
-        {
-            get { return paused; }
-        }
-
         void Awake()
         {
             Init();
 
+            sequencer = GetComponent<Sequencer>();
+
             Energy = energyTarget = energy;
             Stress = stressTarget = stress;
-
-            audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.hideFlags = HideFlags.HideInInspector;
-            audioSource.panLevel = 0.0f;
-            audioSource.Stop();
 
             if (playOnAwake)
                 Play();
@@ -180,120 +170,109 @@ namespace BarelyAPI
             }
         }
 
-        void OnAudioFilterRead(float[] data, int channels)
-        {
-            sequencer.Update(data.Length / channels);
+        //void OnAudioFilterRead(float[] data, int channels)
+        //{
+        //    sequencer.Update(data.Length / channels);
 
-            for (int i = 0; i < data.Length; i += channels)
-            {
-                data[i] = Mathf.Clamp(masterVolume * ensemble.GetOutput(), -1.0f, 1.0f);
+        //    //for (int i = 0; i < data.Length; i += channels)
+        //    //{
+        //    //    data[i] = Mathf.Clamp(masterVolume * ensemble.GetOutput(), -1.0f, 1.0f);
 
-                // If stereo, copy the mono data to each channel
-                if (channels == 2) data[i + 1] = data[i];
-            }
-        }
+        //    //    // If stereo, copy the mono data to each channel
+        //    //    if (channels == 2) data[i + 1] = data[i];
+        //    //}
+        //}
 
         public void Init()
         {
-            if (sequencer == null) sequencer = new Sequencer(initialTempo, barsPerSection, beatsPerBar);
-            if (conductor == null) conductor = new Conductor((float)rootNote);
+            //if (sequencer == null) sequencer = new Sequencer(initialTempo, barsPerSection, beatsPerBar);
+            //if (conductor == null) conductor = new Conductor((float)rootNote);
 
-            if (ensemble == null)
-            {
-                MacroGenerator macro = GeneratorFactory.CreateMacroGenerator(MacroGeneratorTypeIndex, sequencer.MinuteToSections(songDuration), true);
-                MesoGenerator meso = GeneratorFactory.CreateMesoGenerator(MesoGeneratorTypeIndex, sequencer);
+            //if (ensemble == null)
+            //{
+            //    MacroGenerator macro = GeneratorFactory.CreateMacroGenerator(MacroGeneratorTypeIndex, sequencer.MinuteToSections(songDuration), true);
+            //    MesoGenerator meso = GeneratorFactory.CreateMesoGenerator(MesoGeneratorTypeIndex, sequencer);
 
-                ensemble = new Ensemble(macro, meso, conductor);
-                ensemble.Register(sequencer);
+            //    ensemble = new Ensemble(macro, meso, conductor);
+            //    ensemble.Register(sequencer);
 
-                // performers
-                if (PerformerNames == null) PerformerNames = new List<string>();
-                if (Instruments == null) Instruments = new List<InstrumentMeta>();
-                if (MicroGeneratorTypes == null) MicroGeneratorTypes = new List<int>();
+            //    // performers
+            //    if (PerformerNames == null) PerformerNames = new List<string>();
+            //    if (Instruments == null) Instruments = new List<InstrumentMeta>();
+            //    if (MicroGeneratorTypes == null) MicroGeneratorTypes = new List<int>();
 
-                for (int i = 0; i < PerformerNames.Count; ++i)
-                {
-                    string name = PerformerNames[i];
+            //    for (int i = 0; i < PerformerNames.Count; ++i)
+            //    {
+            //        string name = PerformerNames[i];
 
-                    Instrument instrument = InstrumentFactory.CreateInstrument(Instruments[i]);
-                    MicroGenerator micro = GeneratorFactory.CreateMicroGenerator(MicroGeneratorTypes[i], sequencer);
-                    Performer performer = new Performer(instrument, micro);
-                    performer.Active = Instruments[i].Active;
-                    ensemble.AddPerformer(name, performer);
-                }
-            }
+            //        Instrument instrument = InstrumentFactory.CreateInstrument(Instruments[i]);
+            //        MicroGenerator micro = GeneratorFactory.CreateMicroGenerator(MicroGeneratorTypes[i], sequencer);
+            //        Performer performer = new Performer(instrument, micro);
+            //        performer.Active = Instruments[i].Active;
+            //        ensemble.AddPerformer(name, performer);
+            //    }
+            //}
         }
 
-        public void RegisterPerformer(string performerName, InstrumentMeta instrumentMeta, int microGeneratorTypeIndex, int editIndex = -1)
+        public void RegisterPerformer(string performerName, Instrument instrumentMeta, int microGeneratorTypeIndex, int editIndex = -1)
         {
-            if (editIndex >= 0)
-            {
-                if (ensemble != null) ensemble.RemovePerfomer(PerformerNames[editIndex]);
+            //if (editIndex >= 0)
+            //{
+            //    if (ensemble != null) ensemble.RemovePerfomer(PerformerNames[editIndex]);
 
-                PerformerNames[editIndex] = performerName;
-                DestroyImmediate(Instruments[editIndex]);
-                Instruments[editIndex] = instrumentMeta;
-                MicroGeneratorTypes[editIndex] = microGeneratorTypeIndex;
-            }
-            else
-            {
-                PerformerNames.Add(performerName);
-                Instruments.Add(instrumentMeta);
-                MicroGeneratorTypes.Add(microGeneratorTypeIndex);
-            }
+            //    PerformerNames[editIndex] = performerName;
+            //    DestroyImmediate(Instruments[editIndex]);
+            //    Instruments[editIndex] = instrumentMeta;
+            //    MicroGeneratorTypes[editIndex] = microGeneratorTypeIndex;
+            //}
+            //else
+            //{
+            //    PerformerNames.Add(performerName);
+            //    Instruments.Add(instrumentMeta);
+            //    MicroGeneratorTypes.Add(microGeneratorTypeIndex);
+            //}
 
-            if (ensemble != null)
-            {
-                Instrument instrument = InstrumentFactory.CreateInstrument(instrumentMeta);
-                MicroGenerator micro = GeneratorFactory.CreateMicroGenerator(microGeneratorTypeIndex, sequencer);
+            //if (ensemble != null)
+            //{
+            //    Instrument instrument = InstrumentFactory.CreateInstrument(instrumentMeta);
+            //    MicroGenerator micro = GeneratorFactory.CreateMicroGenerator(microGeneratorTypeIndex, sequencer);
 
-                Performer performer = new Performer(instrument, micro);
-                performer.Active = instrumentMeta.Active;
-                ensemble.AddPerformer(performerName, performer);
-            }
+            //    Performer performer = new Performer(instrument, micro);
+            //    performer.Active = instrumentMeta.Active;
+            //    ensemble.AddPerformer(performerName, performer);
+            //}
         }
 
         public void DeregisterPerformer(string performerName)
         {
-            int index = PerformerNames.IndexOf(performerName);
-            if (index > -1)
-            {
-                PerformerNames.RemoveAt(index);
-                InstrumentMeta meta = Instruments[index];
-                Instruments.RemoveAt(index);
-                DestroyImmediate(meta);
-                MicroGeneratorTypes.RemoveAt(index);
+            //int index = PerformerNames.IndexOf(performerName);
+            //if (index > -1)
+            //{
+            //    PerformerNames.RemoveAt(index);
+            //    InstrumentMeta meta = Instruments[index];
+            //    Instruments.RemoveAt(index);
+            //    DestroyImmediate(meta);
+            //    MicroGeneratorTypes.RemoveAt(index);
 
-                if (ensemble != null)
-                    ensemble.RemovePerfomer(performerName);
-            }
+            //    if (ensemble != null)
+            //        ensemble.RemovePerfomer(performerName);
+            //}
         }
 
         public void Play()
         {
-            if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-                paused = false;
-            }
+            sequencer.Start();
         }
 
         public void Pause()
         {
-            if (audioSource.isPlaying)
-            {
-                audioSource.Pause();
-                paused = true;
-            }
+            sequencer.Pause();
         }
 
         public void Stop()
         {
-            audioSource.Stop();
-            paused = false;
-
             ensemble.Reset();
-            sequencer.Reset();
+            sequencer.Stop();
         }
 
         public void SetMood(Mood moodType, float smoothness = 0.0f)
