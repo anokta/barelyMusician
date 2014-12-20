@@ -18,13 +18,6 @@ namespace BarelyAPI
         // Instrument Voices
         protected List<Voice> voices;
 
-        // Effects
-        protected List<AudioEffect> effects;
-        public List<AudioEffect> Effects
-        {
-            get { return effects; }
-        }
-
         // Envelope properties
         [SerializeField]
         protected float attack, decay, sustain, release;
@@ -94,7 +87,6 @@ namespace BarelyAPI
         protected virtual void Awake()
         {
             voices = new List<Voice>();
-            effects = new List<AudioEffect>();
 
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.hideFlags = HideFlags.HideInInspector;
@@ -119,17 +111,6 @@ namespace BarelyAPI
                 // If stereo, copy the mono data to each channel
                 if (channels == 2) data[i + 1] = data[i];
             }
-
-            foreach (AudioEffect effect in effects)
-            {
-                if (effect.Enabled)
-                    effect.ProcessBlock(ref data, channels);
-            }
-        }
-
-        public void AddEffect(AudioEffect effect)
-        {
-            effects.Add(effect);
         }
 
         public virtual void PlayNote(Note note)

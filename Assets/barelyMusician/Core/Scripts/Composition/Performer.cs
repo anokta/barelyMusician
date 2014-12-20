@@ -119,11 +119,6 @@ namespace BarelyAPI
         void applyTransformation(TimbreProperties timbre)
         {
             instrument.Attack = initialOnset * timbre.NoteOnsetMultiplier;
-
-            foreach (AudioEffect effect in instrument.Effects)
-            {
-                effect.Apply(timbre);
-            }
         }
     }
 }

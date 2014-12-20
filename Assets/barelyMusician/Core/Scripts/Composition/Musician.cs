@@ -170,19 +170,6 @@ namespace BarelyAPI
             }
         }
 
-        //void OnAudioFilterRead(float[] data, int channels)
-        //{
-        //    sequencer.Update(data.Length / channels);
-
-        //    //for (int i = 0; i < data.Length; i += channels)
-        //    //{
-        //    //    data[i] = Mathf.Clamp(masterVolume * ensemble.GetOutput(), -1.0f, 1.0f);
-
-        //    //    // If stereo, copy the mono data to each channel
-        //    //    if (channels == 2) data[i + 1] = data[i];
-        //    //}
-        //}
-
         public void Init()
         {
             //if (sequencer == null) sequencer = new Sequencer(initialTempo, barsPerSection, beatsPerBar);
