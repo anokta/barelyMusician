@@ -15,16 +15,8 @@ namespace BarelyAPI
     [AddComponentMenu("BarelyAPI/Musician")]
     public class Musician : MonoBehaviour
     {
-        public int MacroGeneratorTypeIndex = 0;
-        public int MesoGeneratorTypeIndex = 0;
-
-        public Mood Mood;
-        public bool performerFoldout;
-
-        public List<string> PerformerNames;
-        public List<Instrument> Instruments;
-        public List<int> MicroGeneratorTypes;
-
+        public Ensemble ensemble;
+    
         // Tempo (BPM)
         [SerializeField]
         int initialTempo = 120;
@@ -36,33 +28,6 @@ namespace BarelyAPI
                 initialTempo = value;
                 sequencer.Tempo = (int)(initialTempo * conductor.TempoMultiplier);
             }
-        }
-
-        // Song duration in minutes
-        [SerializeField]
-        float songDuration = 1.0f;
-        public float SongDuration
-        {
-            get { return songDuration; }
-            set { songDuration = value; ensemble.SongDurationInSections = sequencer.MinuteToSections(songDuration); }
-        }
-
-        // Bars per section
-        [SerializeField]
-        int barsPerSection = 4;
-        public int BarsPerSection
-        {
-            get { return barsPerSection; }
-            set { barsPerSection = value; sequencer.BarCount = barsPerSection; }
-        }
-
-        // Beats per bar
-        [SerializeField]
-        public int beatsPerBar = 4;
-        public int BeatsPerBar
-        {
-            get { return beatsPerBar; }
-            set { beatsPerBar = value; sequencer.BeatCount = beatsPerBar; }
         }
 
         // Fundamental key of the song
@@ -83,13 +48,7 @@ namespace BarelyAPI
             set { masterVolume = value; }
         }
 
-        [SerializeField]
-        bool playOnAwake;
-        public bool PlayOnAwake
-        {
-            get { return playOnAwake; }
-            set { playOnAwake = value; }
-        }
+        public Mood Mood;
 
         // Arousal (Passive - Active)
         [SerializeField]
@@ -131,12 +90,15 @@ namespace BarelyAPI
             get { return sequencer.audio.isPlaying; }
         }
 
-        Ensemble ensemble;
-        public Ensemble Ensemble
-        {
-            get { return ensemble; }
-        }
 
+        [SerializeField]
+        bool playOnAwake;
+        public bool PlayOnAwake
+        {
+            get { return playOnAwake; }
+            set { playOnAwake = value; }
+        }
+        
         Conductor conductor;
 
         void Awake()
@@ -198,51 +160,6 @@ namespace BarelyAPI
             //        performer.Active = Instruments[i].Active;
             //        ensemble.AddPerformer(name, performer);
             //    }
-            //}
-        }
-
-        public void RegisterPerformer(string performerName, Instrument instrumentMeta, int microGeneratorTypeIndex, int editIndex = -1)
-        {
-            //if (editIndex >= 0)
-            //{
-            //    if (ensemble != null) ensemble.RemovePerfomer(PerformerNames[editIndex]);
-
-            //    PerformerNames[editIndex] = performerName;
-            //    DestroyImmediate(Instruments[editIndex]);
-            //    Instruments[editIndex] = instrumentMeta;
-            //    MicroGeneratorTypes[editIndex] = microGeneratorTypeIndex;
-            //}
-            //else
-            //{
-            //    PerformerNames.Add(performerName);
-            //    Instruments.Add(instrumentMeta);
-            //    MicroGeneratorTypes.Add(microGeneratorTypeIndex);
-            //}
-
-            //if (ensemble != null)
-            //{
-            //    Instrument instrument = InstrumentFactory.CreateInstrument(instrumentMeta);
-            //    MicroGenerator micro = GeneratorFactory.CreateMicroGenerator(microGeneratorTypeIndex, sequencer);
-
-            //    Performer performer = new Performer(instrument, micro);
-            //    performer.Active = instrumentMeta.Active;
-            //    ensemble.AddPerformer(performerName, performer);
-            //}
-        }
-
-        public void DeregisterPerformer(string performerName)
-        {
-            //int index = PerformerNames.IndexOf(performerName);
-            //if (index > -1)
-            //{
-            //    PerformerNames.RemoveAt(index);
-            //    InstrumentMeta meta = Instruments[index];
-            //    Instruments.RemoveAt(index);
-            //    DestroyImmediate(meta);
-            //    MicroGeneratorTypes.RemoveAt(index);
-
-            //    if (ensemble != null)
-            //        ensemble.RemovePerfomer(performerName);
             //}
         }
 

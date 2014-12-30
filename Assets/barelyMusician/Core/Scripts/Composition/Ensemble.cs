@@ -11,20 +11,11 @@ using System.Collections.Generic;
 
 namespace BarelyAPI
 {
-    public class Ensemble
+    public class Ensemble : MonoBehaviour
     {
-        Dictionary<string, Performer> performers;
-        public int PerformersCount
-        {
-            get { if (performers != null) return performers.Count; return 0; }
-        }
+        public Performer[] performers;
 
         MacroGenerator macro;
-        public int SongDurationInSections
-        {
-            get { return macro.SequenceLength; }
-            set { macro.SequenceLength = value; }
-        }
 
         SectionType currentSection;
         public SectionType CurrentSection
@@ -37,50 +28,14 @@ namespace BarelyAPI
 
         Conductor conductor;
 
-        public Ensemble(MacroGenerator sequenceGenerator, MesoGenerator sectionGenerator, Conductor conductor)
+        void Awake()
         {
-            performers = new Dictionary<string, Performer>();
-
-            macro = sequenceGenerator;
-            meso = sectionGenerator;
-
             currentSection = SectionType.NONE;
-
-            this.conductor = conductor;
-        }
-
-        public void Register(Sequencer sequencer)
-        {
-            sequencer.AddSectionListener(OnNextSection);
-            sequencer.AddBarListener(OnNextBar);
-            sequencer.AddBeatListener(OnNextBeat);
-            sequencer.AddPulseListener(OnNextPulse);
-        }
-
-        public void AddPerformer(string name, Performer performer)
-        {
-            performers.Add(name, performer);
-        }
-
-        public void RemovePerfomer(string name)
-        {
-            performers.Remove(name);
-        }
-
-        public Performer GetPerformer(string name)
-        {
-            Performer performer = null;
-            if (performers.TryGetValue(name, out performer))
-            {
-                return performer;
-            }
-
-            return null;
         }
 
         public void Stop()
         {
-            foreach (Performer performer in performers.Values)
+            foreach (Performer performer in performers)
             {
                 performer.Reset();
             }
@@ -96,26 +51,6 @@ namespace BarelyAPI
             meso.Restart();
         }
 
-        public bool IsPerformerActive(string name)
-        {
-            Performer performer = null;
-            if (performers.TryGetValue(name, out performer))
-            {
-                return performer.Active;
-            }
-
-            return false;
-        }
-
-        public void TogglePeformer(string name, bool active)
-        {
-            Performer performer = null;
-            if (performers.TryGetValue(name, out performer))
-            {
-                performer.Active = active;
-            }
-        }
-
         void OnNextSection(Sequencer sequencer)
         {
             currentSection = macro.GetSection(sequencer.CurrentSection);
@@ -125,7 +60,7 @@ namespace BarelyAPI
         {
             if (currentSection != SectionType.END)
             {
-                foreach (Performer performer in performers.Values)
+                foreach (Performer performer in performers)
                 {
                     performer.GenerateBar(currentSection, sequencer.CurrentBar, meso.GetHarmonic(currentSection, sequencer.CurrentBar));
                 }
@@ -134,7 +69,7 @@ namespace BarelyAPI
 
         void OnNextBeat(Sequencer sequencer)
         {
-            foreach (Performer performer in performers.Values)
+            foreach (Performer performer in performers)
             {
                 performer.AddBeat(sequencer, conductor);
             }
@@ -144,7 +79,7 @@ namespace BarelyAPI
         {
             int bar = sequencer.CurrentSection * sequencer.BarCount + sequencer.CurrentBar;
 
-            foreach (Performer performer in performers.Values)
+            foreach (Performer performer in performers)
             {
                 performer.Play(bar, sequencer.CurrentPulse);
             }

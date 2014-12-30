@@ -84,7 +84,6 @@ GameObject:
   - 4: {fileID: 248457941}
   - 114: {fileID: 248457940}
   - 114: {fileID: 248457939}
-  - 114: {fileID: 248457942}
   m_Layer: 0
   m_Name: InstrumentTest
   m_TagString: Untagged
@@ -133,17 +132,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!114 &248457942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 248457938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33040ce38f5bb45449ad91c2decd65d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1374853901
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,23 +243,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a0e41ef9c742c409fe2a771969d624, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MacroGeneratorTypeIndex: 0
-  MesoGeneratorTypeIndex: 0
-  Mood: 0
-  performerFoldout: 0
-  PerformerNames: []
-  Instruments:
-  - {fileID: 248457940}
-  MicroGeneratorTypes: 
+  ensemble: {fileID: 0}
   initialTempo: 120
-  songDuration: 1
-  barsPerSection: 4
-  beatsPerBar: 4
   rootNote: 3
   masterVolume: 1
-  playOnAwake: 0
+  Mood: 0
   energy: .5
   stress: .5
+  playOnAwake: 0
 --- !u!4 &1511343269
 Transform:
   m_ObjectHideFlags: 0
