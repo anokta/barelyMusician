@@ -146,7 +146,7 @@ namespace BarelyAPI
 
             foreach (Performer performer in performers.Values)
             {
-                performer.Play(bar, sequencer.CurrentPulse, conductor.TimbreProperties);
+                performer.Play(bar, sequencer.CurrentPulse);
             }
         }
     }

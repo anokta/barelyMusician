@@ -87,10 +87,8 @@ namespace BarelyAPI
             }
         }
 
-        public void Play(int bar, int pulse, TimbreProperties timbre)
+        public void Play(int bar, int pulse)
         {
-            applyTransformation(timbre);
-
             List<Note>[] currentBar;
             if (score.TryGetValue(bar, out currentBar) && currentBar[pulse] != null)
             {
@@ -114,11 +112,6 @@ namespace BarelyAPI
                 currentBar[pulse] = new List<Note>();
 
             currentBar[pulse].Add(note);
-        }
-
-        void applyTransformation(TimbreProperties timbre)
-        {
-            instrument.Attack = initialOnset * timbre.NoteOnsetMultiplier;
         }
     }
 }

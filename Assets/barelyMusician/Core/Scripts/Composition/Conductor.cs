@@ -84,20 +84,11 @@ namespace BarelyAPI
             set { pitchHeight = 3.0f * value - 2.0f; }
         }
 
-        // Instrument timbre properties
-        TimbreProperties timbreProperties;
-        public TimbreProperties TimbreProperties
-        {
-            get { return timbreProperties; }
-        }
-
         public Conductor(float key, ModeGenerator modeGenerator = null)
         {
             fundamentalKey = key;
 
             mode = modeGenerator == null ? new DefaultModeGenerator() : modeGenerator;
-
-            timbreProperties = new TimbreProperties();
         }
 
         public void SetParameters(float energy, float stress)
@@ -113,8 +104,6 @@ namespace BarelyAPI
             LoudnessVariance = (energy + stress) / 2.0f;
             PitchHeight = energy * 0.25f + (1.0f - stress) * 0.75f;
             HarmonicCurve = (stress > 0.5f) ? (0.75f * (1.0f - stress) + 0.25f * (1.0f - energy)) : 1.0f;
-
-            timbreProperties.Set(energy, stress);
         }
 
         public NoteMeta TransformNote(NoteMeta meta)
