@@ -20,7 +20,20 @@ namespace BarelyAPI
         {
             get { return fundamentalKey; }
             set { fundamentalKey = value; }
-        }
+		}
+
+		// Tempo (BPM)
+		[SerializeField]
+		int initialTempo = 120;
+		public int Tempo
+		{
+			get { return initialTempo; }
+			set
+			{
+				initialTempo = value;
+				sequencer.Tempo = (int)(initialTempo * TempoMultiplier);
+			}
+		}
 
         public Mood Mood;
 
@@ -36,7 +49,7 @@ namespace BarelyAPI
                 energy = value;
 
                 SetParameters(energy, stress);
-                //sequencer.Tempo = (int)(initialTempo * conductor.TempoMultiplier);
+                sequencer.Tempo = (int)(initialTempo * TempoMultiplier);
             }
         }
         // Valence (Happy - Sad) 
@@ -115,10 +128,14 @@ namespace BarelyAPI
         {
             get { return pitchHeight; }
             set { pitchHeight = 3.0f * value - 2.0f; }
-        }
+		}
+		
+		Sequencer sequencer;
 
         void Awake()
         {
+			sequencer = GetComponent<Sequencer> ();
+
             Energy = energyTarget = energy;
             Stress = stressTarget = stress;
 

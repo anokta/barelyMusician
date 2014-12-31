@@ -35,27 +35,12 @@ namespace BarelyAPI
             set { playOnAwake = value; }
         }
 
-        // Tempo (BPM)
-        [SerializeField]
-        int initialTempo = 120;
-        public int Tempo
-        {
-            get { return initialTempo; }
-            set
-            {
-                initialTempo = value;
-                sequencer.Tempo = (int)(initialTempo * conductor.TempoMultiplier);
-            }
-        }
-
         public Ensemble ensemble;
 
-        Conductor conductor;
         Sequencer sequencer;
 
         void Awake()
         {
-            conductor = GetComponent<Conductor>();
             sequencer = GetComponent<Sequencer>();
 
             ensemble.Register(sequencer);

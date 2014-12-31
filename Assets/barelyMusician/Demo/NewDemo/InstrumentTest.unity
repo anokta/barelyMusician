@@ -305,7 +305,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   masterVolume: 1
   playOnAwake: 0
-  initialTempo: 120
   ensemble: {fileID: 1894896010}
 --- !u!4 &1511343269
 Transform:
@@ -332,6 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fundamentalKey: 3
+  initialTempo: 120
   Mood: 0
   energy: .5
   stress: .5
