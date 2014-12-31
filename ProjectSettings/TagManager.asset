@@ -3,8 +3,6 @@
 --- !u!78 &1
 TagManager:
   tags:
-  - Chord
-  - Melody
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

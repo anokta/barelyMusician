@@ -4,12 +4,4 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/DemoScene.unity
-  - enabled: 1
-    path: Assets/barelyMusician/Demo/DemoScene/Scenes/DemoScene.unity
-  - enabled: 0
-    path: Assets/barelyMusician/Demo/BunnyGame/Scenes/BunnyScene.unity
-  - enabled: 0
-    path: Assets/barelyMusician/Demo/DemoScene/Scenes/DemoSceneExperimental.unity
+  m_Scenes: []
