@@ -11,14 +11,10 @@ using System.Collections.Generic;
 
 namespace BarelyAPI
 {
-    public class Performer
+    [AddComponentMenu("BarelyAPI/Performer")]
+    public class Performer : MonoBehaviour
     {
-        bool active;
-        public bool Active
-        {
-            get { return active; }
-            set { active = value; }
-        }
+        public Instrument instrument;
 
         // Line generator
         MicroGenerator microGenerator;
@@ -28,27 +24,13 @@ namespace BarelyAPI
             set { microGenerator = value; }
         }
 
-        // Instrument
-        Instrument instrument;
-        public Instrument Instrument
-        {
-            get { return instrument; }
-            set { instrument = value; initialOnset = instrument.Attack; }
-        }
-
         // Score (note list per bar)
         Dictionary<int, List<Note>[]> score;
         List<NoteMeta> currentBar;
 
-
-        float initialOnset;
-
-        public Performer(Instrument instrument, MicroGenerator microGenerator)
+        void Awake()
         {
-            Instrument = instrument;
-            MicroGenerator = microGenerator;
-
-            active = true;
+            instrument = GetComponent<Instrument>();
 
             Reset();
         }
@@ -69,20 +51,17 @@ namespace BarelyAPI
 
         public void AddBeat(Sequencer sequencer, Conductor conductor)
         {
-            if (active)
+            foreach (NoteMeta noteMeta in currentBar)
             {
-                foreach (NoteMeta noteMeta in currentBar)
+                if (Mathf.FloorToInt(noteMeta.Offset * sequencer.BeatCount) == sequencer.CurrentBeat)
                 {
-                    if (Mathf.FloorToInt(noteMeta.Offset * sequencer.BeatCount) == sequencer.CurrentBeat)
-                    {
-                        NoteMeta meta = conductor.TransformNote(noteMeta);
+                    NoteMeta meta = conductor.TransformNote(noteMeta);
 
-                        float start = sequencer.CurrentSection * sequencer.BarCount + sequencer.CurrentBar + meta.Offset;
-                        float end = start + meta.Duration;
+                    float start = sequencer.CurrentSection * sequencer.BarCount + sequencer.CurrentBar + meta.Offset;
+                    float end = start + meta.Duration;
 
-                        addNote(new Note(meta.Index, meta.Loudness), start, sequencer.BarLength);
-                        addNote(new Note(meta.Index, 0.0f), end, sequencer.BarLength);
-                    }
+                    addNote(new Note(meta.Index, meta.Loudness), start, sequencer.BarLength);
+                    addNote(new Note(meta.Index, 0.0f), end, sequencer.BarLength);
                 }
             }
         }

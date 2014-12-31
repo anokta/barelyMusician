@@ -11,14 +11,47 @@ using System;
 
 namespace BarelyAPI
 {
-    public class Conductor
+    public class Conductor : MonoBehaviour
     {
         // Key note
-        float fundamentalKey;
+        [SerializeField]
+        float fundamentalKey = (float)NoteIndex.C4;
         public float Key
         {
             get { return fundamentalKey; }
             set { fundamentalKey = value; }
+        }
+
+        public Mood Mood;
+
+        // Arousal (Passive - Active)
+        [SerializeField]
+        float energy = 0.5f;
+        float energyTarget, energyInterpolationSpeed;
+        public float Energy
+        {
+            get { return energy; }
+            set
+            {
+                energy = value;
+
+                SetParameters(energy, stress);
+                //sequencer.Tempo = (int)(initialTempo * conductor.TempoMultiplier);
+            }
+        }
+        // Valence (Happy - Sad) 
+        [SerializeField]
+        float stress = 0.5f;
+        float stressTarget, stressInterpolationSpeed;
+        public float Stress
+        {
+            get { return stress; }
+            set
+            {
+                stress = value;
+
+                SetParameters(energy, stress);
+            }
         }
 
         // Tempo
@@ -84,14 +117,86 @@ namespace BarelyAPI
             set { pitchHeight = 3.0f * value - 2.0f; }
         }
 
-        public Conductor(float key, ModeGenerator modeGenerator = null)
+        void Awake()
         {
-            fundamentalKey = key;
+            Energy = energyTarget = energy;
+            Stress = stressTarget = stress;
 
-            mode = modeGenerator == null ? new DefaultModeGenerator() : modeGenerator;
+            mode = new DefaultModeGenerator();
         }
 
-        public void SetParameters(float energy, float stress)
+        void Update()
+        {
+            if (energy != energyTarget)
+            {
+                if (Mathf.Abs(energy - energyTarget) < 0.01f * energyInterpolationSpeed * Time.deltaTime)
+                    Energy = energyTarget;
+                else
+                    Energy = Mathf.Lerp(energy, energyTarget, energyInterpolationSpeed * Time.deltaTime);
+            }
+            if (stress != stressTarget)
+            {
+                if (Mathf.Abs(stress - stressTarget) < 0.01f * stressInterpolationSpeed * Time.deltaTime)
+                    Stress = stressTarget;
+                else
+                    Stress = Mathf.Lerp(stress, stressTarget, stressInterpolationSpeed * Time.deltaTime);
+            }
+        }
+
+        public void SetMood(Mood moodType, float smoothness = 0.0f)
+        {
+            Mood = moodType;
+            switch (Mood)
+            {
+                case Mood.Happy:
+                    SetMood(0.5f, 0.0f, smoothness);
+                    break;
+                case Mood.Tender:
+                    SetMood(0.0f, 0.0f, smoothness);
+                    break;
+                case Mood.Exciting:
+                    SetMood(1.0f, 0.0f, smoothness);
+                    break;
+                case Mood.Sad:
+                    SetMood(0.25f, 0.75f, smoothness);
+                    break;
+                case Mood.Depressed:
+                    SetMood(0.0f, 1.0f, smoothness);
+                    break;
+                case Mood.Angry:
+                    SetMood(1.0f, 1.0f, smoothness);
+                    break;
+                case Mood.Custom:
+                    break;
+                default:
+                    SetMood(0.5f, 0.5f, smoothness);
+                    break;
+            }
+        }
+
+        public void SetMood(float energy, float stress, float smoothness = 0.0f)
+        {
+            SetEnergy(energy, smoothness);
+            SetStress(stress, smoothness);
+        }
+
+        public void SetEnergy(float energy, float smoothness = 0.0f)
+        {
+            energyTarget = Math.Max(-1.0f, Math.Min(1.0f, energy));
+            energyInterpolationSpeed = (smoothness == 0.0f) ? 1.0f : 1.0f / (smoothness * smoothness);
+
+            if (smoothness == 0.0f & Energy != energy) Energy = energyTarget;
+        }
+
+        public void SetStress(float stress, float smoothness = 0.0f)
+        {
+            stressTarget = Math.Max(-1.0f, Math.Min(1.0f, stress));
+            stressInterpolationSpeed = (smoothness == 0.0f) ? 1.0f : 1.0f / (smoothness * smoothness);
+
+            if (smoothness == 0.0f & Stress != stress) Stress = stressTarget;
+        }
+
+        void SetParameters(float energy, float stress)
         {
             TempoMultiplier = energy;
             ArticulationMultiplier = 1.0f - energy;
@@ -121,4 +226,6 @@ namespace BarelyAPI
             return fundamentalKey + mode.GetNoteOffset(index);
         }
     }
+
+    public enum Mood { Neutral, Happy, Tender, Exciting, Sad, Depressed, Angry, Custom }
 }

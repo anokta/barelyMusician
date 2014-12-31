@@ -10,6 +10,7 @@ using System.Collections;
 
 namespace BarelyAPI
 {
+    [AddComponentMenu("BarelyAPI/Sequencer")]
     public class Sequencer : MonoBehaviour
     {
         // Event dispatcher

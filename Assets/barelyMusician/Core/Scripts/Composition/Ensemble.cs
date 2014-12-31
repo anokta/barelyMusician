@@ -11,26 +11,31 @@ using System.Collections.Generic;
 
 namespace BarelyAPI
 {
+    [AddComponentMenu("BarelyAPI/Ensemble")]
     public class Ensemble : MonoBehaviour
     {
-        public Performer[] performers;
+        Performer[] performers;
 
         MacroGenerator macro;
+        MesoGenerator meso;
 
         SectionType currentSection;
-        public SectionType CurrentSection
-        {
-            get { return currentSection; }
-            set { currentSection = value; }
-        }
-
-        MesoGenerator meso;
 
         Conductor conductor;
 
         void Awake()
         {
             currentSection = SectionType.NONE;
+
+            performers = GetComponentsInChildren<Performer>();
+        }
+
+        public void Register(Sequencer sequencer)
+        {
+            sequencer.AddSectionListener(OnNextSection);
+            sequencer.AddBarListener(OnNextBar);
+            sequencer.AddBeatListener(OnNextBeat);
+            sequencer.AddPulseListener(OnNextPulse);
         }
 
         public void Stop()
