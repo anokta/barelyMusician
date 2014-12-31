@@ -12,6 +12,7 @@ namespace BarelyAPI
 {
     public class SynthInstrument : MelodicInstrument
     {
+        [SerializeField]
         protected OscillatorType oscType;
         public OscillatorType OscType
         {

@@ -120,6 +120,7 @@ MonoBehaviour:
   release: .5
   volume: .5
   voiceCount: 16
+  oscType: 0
 --- !u!4 &248457941
 Transform:
   m_ObjectHideFlags: 0
@@ -131,6 +132,65 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+  m_RootOrder: 1
+--- !u!1 &540137783
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 540137786}
+  - 114: {fileID: 540137785}
+  - 114: {fileID: 540137784}
+  m_Layer: 0
+  m_Name: Performer 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &540137784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 540137783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6fec5683cfe37149bfa7b13d867f4cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attack: .5
+  decay: .100000001
+  sustain: 1
+  release: .5
+  volume: .5
+  voiceCount: 16
+  oscType: 0
+--- !u!114 &540137785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 540137783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f9e107ef298fb548ae8db77af9f6cf9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instrument: {fileID: 540137784}
+--- !u!4 &540137786
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 540137783}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1511343269}
   m_RootOrder: 1
 --- !u!1 &1119826274
 GameObject:
@@ -178,6 +238,7 @@ MonoBehaviour:
   release: .5
   volume: .5
   voiceCount: 16
+  oscType: 2
 --- !u!4 &1119826277
 Transform:
   m_ObjectHideFlags: 0
@@ -188,7 +249,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1894896011}
+  m_Father: {fileID: 1511343269}
   m_RootOrder: 0
 --- !u!1 &1374853901
 GameObject:
@@ -286,7 +347,7 @@ GameObject:
   - 114: {fileID: 1511343270}
   - 114: {fileID: 1511343268}
   m_Layer: 0
-  m_Name: Musician
+  m_Name: Ensemble (barelyMusician)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -300,12 +361,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1511343267}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10a0e41ef9c742c409fe2a771969d624, type: 3}
+  m_Script: {fileID: 11500000, guid: e02bf5d7d2d4f7e47bab7a2611555337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   masterVolume: 1
   playOnAwake: 0
-  ensemble: {fileID: 1894896010}
 --- !u!4 &1511343269
 Transform:
   m_ObjectHideFlags: 0
@@ -316,7 +376,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1894896011}
+  - {fileID: 1119826277}
+  - {fileID: 540137786}
   m_Father: {fileID: 0}
   m_RootOrder: 2
 --- !u!114 &1511343270
@@ -351,43 +412,3 @@ MonoBehaviour:
   BeatCount: 4
   PulseCount: 32
   NoteType: 4
---- !u!1 &1894896009
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1894896011}
-  - 114: {fileID: 1894896010}
-  m_Layer: 0
-  m_Name: Ensemble
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1894896010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1894896009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e02bf5d7d2d4f7e47bab7a2611555337, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1894896011
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1894896009}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1119826277}
-  m_Father: {fileID: 1511343269}
-  m_RootOrder: 0

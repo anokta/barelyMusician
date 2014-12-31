@@ -11,6 +11,8 @@ using System;
 
 namespace BarelyAPI
 {
+
+    [AddComponentMenu("BarelyAPI/Conductor")]
     public class Conductor : MonoBehaviour
     {
         // Key note
@@ -136,10 +138,10 @@ namespace BarelyAPI
         {
 			sequencer = GetComponent<Sequencer> ();
 
+            mode = new DefaultModeGenerator();
+
             Energy = energyTarget = energy;
             Stress = stressTarget = stress;
-
-            mode = new DefaultModeGenerator();
         }
 
         void Update()

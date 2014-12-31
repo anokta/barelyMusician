@@ -12,45 +12,76 @@ using System.Collections.Generic;
 namespace BarelyAPI
 {
     [AddComponentMenu("BarelyAPI/Ensemble")]
+    [RequireComponent(typeof(Conductor))]
+    [RequireComponent(typeof(Sequencer))]
     public class Ensemble : MonoBehaviour
     {
+        // Master volume
+        [SerializeField]
+        float masterVolume = 1.0f;
+        public float MasterVolume
+        {
+            get { return masterVolume; }
+            set { masterVolume = value; }
+        }
+
+        // Play on awake
+        [SerializeField]
+        bool playOnAwake;
+        public bool PlayOnAwake
+        {
+            get { return playOnAwake; }
+            set { playOnAwake = value; }
+        }
+
         Performer[] performers;
 
         MacroGenerator macro;
         MesoGenerator meso;
 
-        SectionType currentSection;
-
         Conductor conductor;
+        Sequencer sequencer;
+
+        SectionType currentSection;
 
         void Awake()
         {
-            currentSection = SectionType.NONE;
+            conductor = GetComponent<Conductor>();
 
-            performers = GetComponentsInChildren<Performer>();
-        }
-
-        public void Register(Sequencer sequencer)
-        {
+            sequencer = GetComponent<Sequencer>();
             sequencer.AddSectionListener(OnNextSection);
             sequencer.AddBarListener(OnNextBar);
             sequencer.AddBeatListener(OnNextBeat);
             sequencer.AddPulseListener(OnNextPulse);
+
+            currentSection = SectionType.NONE;
+
+            performers = GetComponentsInChildren<Performer>();
+
+            if (playOnAwake)
+                Play();
+        }
+
+        public void Play()
+        {
+            sequencer.Start();
+        }
+
+        public void Pause()
+        {
+            sequencer.Pause();
         }
 
         public void Stop()
         {
+            sequencer.Stop();
+
             foreach (Performer performer in performers)
             {
                 performer.Reset();
             }
 
             currentSection = SectionType.NONE;
-        }
-        
-        public void Reset()
-        {
-            Stop();
 
             macro.Restart();
             meso.Restart();
