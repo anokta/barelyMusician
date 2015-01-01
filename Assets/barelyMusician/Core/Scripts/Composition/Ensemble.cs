@@ -18,6 +18,7 @@ namespace BarelyAPI
     {
         // Master volume
         [SerializeField]
+        [Range (0.0f, 1.0f)]
         float masterVolume = 1.0f;
         public float MasterVolume
         {

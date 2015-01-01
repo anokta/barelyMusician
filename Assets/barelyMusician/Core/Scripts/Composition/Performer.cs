@@ -12,24 +12,22 @@ using System.Collections.Generic;
 namespace BarelyAPI
 {
     [AddComponentMenu("BarelyAPI/Performer")]
-    public class Performer : MonoBehaviour
+    public abstract class Performer : MonoBehaviour
     {
-        public Instrument instrument;
+        Instrument instrument;
 
-        // Line generator
-        MicroGenerator microGenerator;
-        public MicroGenerator MicroGenerator
-        {
-            get { return microGenerator; }
-            set { microGenerator = value; }
-        }
+        Dictionary<SectionType, List<NoteMeta>[]> lines;
+        Sequencer sequencer;
 
         // Score (note list per bar)
         Dictionary<int, List<Note>[]> score;
         List<NoteMeta> currentBar;
 
+
         void Awake()
         {
+            sequencer = GetComponentInParent<Sequencer>();
+
             instrument = GetComponent<Instrument>();
 
             Reset();
@@ -37,17 +35,28 @@ namespace BarelyAPI
 
         public void Reset()
         {
+            lines = new Dictionary<SectionType, List<NoteMeta>[]>();
             score = new Dictionary<int, List<Note>[]>();
 
             instrument.StopAllNotes();
-
-            microGenerator.Restart();
         }
 
         public void GenerateBar(SectionType section, int index, int harmonic)
         {
-            currentBar = microGenerator.GetLine(section, index, harmonic);
+            List<NoteMeta>[] lineSection = null;
+            if (!lines.TryGetValue(section, out lineSection))
+                lines[section] = lineSection = new List<NoteMeta>[sequencer.BarCount];
+
+            if (lineSection[index] == null)
+            {
+                lineSection[index] = new List<NoteMeta>();
+                generateLine(section, index, harmonic, ref lineSection[index]);
+            }
+
+            currentBar = lineSection[index];
         }
+
+        protected abstract void generateLine(SectionType section, int bar, int harmonic, ref List<NoteMeta> line);
 
         public void AddBeat(Sequencer sequencer, Conductor conductor)
         {

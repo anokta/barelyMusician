@@ -1,24 +1,12 @@
-﻿// ----------------------------------------------------------------------
-//   Adaptive music composition engine implementation for interactive systems.
-//
-//     Copyright 2014 Alper Gungormusler. All rights reserved.
-//
-// ------------------------------------------------------------------------
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace BarelyAPI
 {
-    public class DefaultMicroGenerator : MicroGenerator
+    public class DefaultPerformer : Performer
     {
         int[] pattern = { 0, 2, 4, 7, 4, 8 };
-
-        public DefaultMicroGenerator(Sequencer sequencer)
-            : base(sequencer)
-        {
-        }
 
         protected override void generateLine(SectionType section, int bar, int harmonic, ref List<NoteMeta> line)
         {

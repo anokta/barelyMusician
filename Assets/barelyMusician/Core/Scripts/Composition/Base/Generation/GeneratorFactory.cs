@@ -25,12 +25,6 @@ namespace BarelyAPI
             get { return instance.mesoGeneratorTypes; }
         }
 
-        private string[] microGeneratorTypes;
-        public static string[] MicroGeneratorTypes
-        {
-            get { return instance.microGeneratorTypes; }
-        }
-
         private static GeneratorFactory _instance;
         private static GeneratorFactory instance
         {
@@ -47,7 +41,6 @@ namespace BarelyAPI
         {
             setGeneratorTypes("MacroGenerators");
             setGeneratorTypes("MesoGenerators");
-            setGeneratorTypes("MicroGenerators");
 
             Resources.UnloadUnusedAssets();
         }
@@ -70,9 +63,6 @@ namespace BarelyAPI
                 case "MesoGenerators":
                     mesoGeneratorTypes = types;
                     break;
-                case "MicroGenerators":
-                    microGeneratorTypes = types;
-                    break;
             }
         }
 
@@ -84,11 +74,6 @@ namespace BarelyAPI
         public static MesoGenerator CreateMesoGenerator(int typeIndex, Sequencer sequencer)
         {
             return createMesoGenerator(MesoGeneratorTypes[typeIndex], sequencer);
-        }
-
-        public static MicroGenerator CreateMicroGenerator(int typeIndex, Sequencer sequencer)
-        {
-            return createMicroGenerator(MicroGeneratorTypes[typeIndex], sequencer);
         }
 
         static MacroGenerator createMacroGenerator(string type, int sequenceLength, bool loop)
@@ -105,14 +90,6 @@ namespace BarelyAPI
             if (mesoType == null) mesoType = Type.GetType("BarelyAPI.DefaultMesoGenerator");
 
             return (MesoGenerator)Activator.CreateInstance(mesoType, sequencer);
-        }
-
-        static MicroGenerator createMicroGenerator(string type, Sequencer sequencer)
-        {
-            Type microType = Type.GetType("BarelyAPI." + type);
-            if (microType == null) microType = Type.GetType("BarelyAPI.DefaultMicroGenerator");
-
-            return (MicroGenerator)Activator.CreateInstance(microType, sequencer);
         }
     }
 }
