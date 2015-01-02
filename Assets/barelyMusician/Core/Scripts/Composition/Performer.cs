@@ -29,7 +29,10 @@ namespace BarelyAPI
             sequencer = GetComponentInParent<Sequencer>();
 
             instrument = GetComponent<Instrument>();
+        }
 
+        void Start()
+        {
             Reset();
         }
 

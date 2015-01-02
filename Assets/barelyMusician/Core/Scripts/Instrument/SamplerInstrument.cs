@@ -42,8 +42,6 @@ namespace BarelyAPI
             {
                 voices.Add(new Voice(new Sampler(sample, sustained, new Note((int)rootNote).Pitch), new Envelope(attack, decay, sustain, release)));
             }
-
-            StopAllNotes();
         }
     }
 }

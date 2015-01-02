@@ -101,7 +101,7 @@ namespace BarelyAPI
             Stop();
         }
 
-        public void Start()
+        public void Play()
         {
             audioSource.Play();
         }

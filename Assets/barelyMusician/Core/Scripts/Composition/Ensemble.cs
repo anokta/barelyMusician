@@ -57,15 +57,21 @@ namespace BarelyAPI
 
             currentSection = SectionType.NONE;
 
-            performers = GetComponentsInChildren<Performer>();
+            macro = new DefaultMacroGenerator(32, true);
+            meso = new DefaultMesoGenerator(sequencer);
 
+            performers = GetComponentsInChildren<Performer>();
+        }
+
+        void Start()
+        {
             if (playOnAwake)
                 Play();
         }
 
         public void Play()
         {
-            sequencer.Start();
+            sequencer.Play();
         }
 
         public void Pause()

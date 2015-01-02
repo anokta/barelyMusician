@@ -41,6 +41,7 @@ namespace BarelyAPI
 
         // Arousal (Passive - Active)
         [SerializeField]
+        [Range (0.0f, 1.0f)]
         float energy = 0.5f;
         float energyTarget, energyInterpolationSpeed;
         public float Energy
@@ -56,6 +57,7 @@ namespace BarelyAPI
         }
         // Valence (Happy - Sad) 
         [SerializeField]
+        [Range(0.0f, 1.0f)]
         float stress = 0.5f;
         float stressTarget, stressInterpolationSpeed;
         public float Stress
