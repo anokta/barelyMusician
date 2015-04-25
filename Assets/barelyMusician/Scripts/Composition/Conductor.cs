@@ -11,7 +11,6 @@ using System;
 
 namespace BarelyAPI
 {
-
     [AddComponentMenu("BarelyAPI/Conductor")]
     public class Conductor : MonoBehaviour
     {

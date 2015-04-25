@@ -25,6 +25,11 @@ public class KeyboardController : MonoBehaviour
         instrument = GetComponent<Instrument>();
     }
 
+    void Start()
+    {
+        instrument.StopAllNotes();
+    }
+
     void Update()
     {
         // octave up-down

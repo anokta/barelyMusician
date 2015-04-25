@@ -28,6 +28,7 @@ namespace BarelyAPI
             {
                 attack = Mathf.Max(MIN_ONSET, value);
 
+                if (voices != null)
                 foreach (Voice voice in voices)
                 {
                     voice.Envelope.Attack = attack;
@@ -41,6 +42,7 @@ namespace BarelyAPI
             {
                 decay = value;
 
+                if(voices != null)
                 foreach (Voice voice in voices)
                 {
                     voice.Envelope.Decay = decay;
@@ -54,6 +56,7 @@ namespace BarelyAPI
             {
                 sustain = value;
 
+                if (voices != null)
                 foreach (Voice voice in voices)
                 {
                     voice.Envelope.Sustain = sustain;
@@ -65,8 +68,9 @@ namespace BarelyAPI
             get { return release; }
             set
             {
-                release = value; 
+                release = value;
 
+                if (voices != null)
                 foreach (Voice voice in voices)
                 {
                     voice.Envelope.Release = release;
@@ -90,7 +94,7 @@ namespace BarelyAPI
 
             audioSource = gameObject.AddComponent<AudioSource>();
             audioSource.hideFlags = HideFlags.HideInInspector;
-            audioSource.panLevel = 0.0f;
+            audioSource.spatialBlend = 0.0f;
             audioSource.Play();
         }
 
