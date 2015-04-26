@@ -10,52 +10,74 @@ using System.Collections;
 
 namespace BarelyAPI
 {
-    public abstract class MacroGenerator
+    public class MacroGenerator
     {
-        protected string sectionSequence;
+        // Sequence generator callback function.
+        public delegate void GenerateSequence(ref string sequence);
+
+        GenerateSequence generateSequenceCallback;
+        public GenerateSequence GenerateSequenceCallback
+        {
+            set { generateSequenceCallback = value; }
+        }
+
+        // Sequence of sections (musical form).
+        string sectionSequence;
         public int SequenceLength
         {
             get { return sectionSequence.Length; }
-            set { targetLength = value; }
         }
 
-        int targetLength;
+        // Should the sequence loop?
         bool loop;
-
-        public MacroGenerator(int length, bool looping = false)
+        public bool Loop
         {
-            targetLength = length;
-            loop = looping;
+            get;
+            set;
+        }
+
+        public MacroGenerator(int length, bool loop = false)
+        {
+            sectionSequence = SectionType.NONE.ToString();
+            sectionSequence.PadRight(length, sectionSequence[0]);
+            Loop = loop;
 
             Restart();
         }
 
+        // Returns the section corresponding to the |index|.
         public SectionType GetSection(int index)
         {
-            if (sectionSequence.Length == 0)
-            {
-                generateSequence(targetLength);
-
-                // Log the sequence
-                //Debug.Log("Sequence: " + sectionSequence);
-            }
-
             if (index >= sectionSequence.Length)
             {
-                if (loop) index %= sectionSequence.Length;
-                else return SectionType.END;
+                if (loop)
+                {
+                    index %= sectionSequence.Length;
+                }
+                else
+                {
+                    return SectionType.END;
+                }
             }
 
-            return (SectionType)sectionSequence[index];
+            SectionType currentSection = (SectionType)sectionSequence[index];
+            if (currentSection == SectionType.NONE)
+            {
+                generateSequenceCallback(ref sectionSequence);
+                currentSection = (SectionType)sectionSequence[index];
+            }
+
+            return currentSection;
         }
 
+        // Flushes the generator.
         public void Restart()
         {
-            sectionSequence = "";
+            int length = SequenceLength;
+            sectionSequence = SectionType.NONE.ToString();
+            sectionSequence.PadRight(length, sectionSequence[0]);
         }
-
-        protected abstract void generateSequence(int length);
     }
 
-    public enum SectionType { INTRO = 'I', VERSE = 'V', PRE_CHORUS = 'P', CHORUS = 'C', BRIDGE = 'B', OUTRO = 'O', END = '.', NONE = ' ' } 
+    public enum SectionType { INTRO = 'I', VERSE = 'V', PRE_CHORUS = 'P', CHORUS = 'C', BRIDGE = 'B', OUTRO = 'O', END = '.', NONE = ' ' }
 }

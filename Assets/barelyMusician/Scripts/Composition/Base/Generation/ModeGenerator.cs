@@ -11,8 +11,18 @@ using System.Collections.Generic;
 
 namespace BarelyAPI
 {
-    public abstract class ModeGenerator
+    // TODO(anokta): Is this class necessary at all now? Maybe merge the functionality to Conductor.
+    public class ModeGenerator
     {
+        // Scale generator callback function.
+        public delegate void GenerateScale(float stress);
+
+        GenerateScale generateScaleCallback;
+        public GenerateScale GenerateScaleCallback
+        {
+            set { generateScaleCallback = value; }
+        }
+
         public const int OCTAVE = 12;
         public const int SCALE_LENGTH = 7;
 
@@ -32,11 +42,6 @@ namespace BarelyAPI
             get { return currentScale.Length; }
         }
 
-        protected ModeGenerator(float stress = 0.0f)
-        {
-            GenerateScale(stress);
-        }
-
         public float GetNoteOffset(float index)
         {
             float octaveOffset = Mathf.Floor(index / currentScale.Length);
@@ -50,7 +55,12 @@ namespace BarelyAPI
             return noteOffset;
         }
 
-        protected void setScale(MusicalScale scaleType, MusicalMode modeType = MusicalMode.IONIAN)
+        public void SetMode(float stress)
+        {
+            generateScaleCallback(stress);
+        }
+
+        public void SetScale(MusicalScale scaleType, MusicalMode modeType = MusicalMode.IONIAN)
         {
             float[] scale = Scales[scaleType];
             int offset = (int)modeType;
@@ -62,8 +72,6 @@ namespace BarelyAPI
                 currentScale[i] = scale[(i + offset) % scale.Length] + ((i + offset) / currentScale.Length) * OCTAVE;
             }
         }
-
-        public abstract void GenerateScale(float stress);
     }
 
     public enum MusicalScale

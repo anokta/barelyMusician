@@ -11,21 +11,28 @@ using System.Collections.Generic;
 
 namespace BarelyAPI
 {
-    public abstract class MesoGenerator
+    public class MesoGenerator
     {
+        // Progression generator callback function.
+        public delegate void GenerateProgression(SectionType section, ref int[] progression);
+
+        GenerateProgression generateProgressionCallback;
+        public GenerateProgression GenerateProgressionCallback
+        {
+            set { generateProgressionCallback = value; }
+        }
+
         Sequencer sequencer;
         protected int ProgressionLength
         {
             get { return sequencer.BarCount; }
         }
-
         Dictionary<SectionType, int[]> progressions;
        
-        protected MesoGenerator(Sequencer sequencer)
+        public MesoGenerator(Sequencer sequencer)
         {
             this.sequencer = sequencer;
-
-            Restart();
+            this.progressions = new Dictionary<SectionType, int[]>();
         }
 
         public int GetHarmonic(SectionType section, int index)
@@ -34,23 +41,15 @@ namespace BarelyAPI
             if (!progressions.TryGetValue(section, out progression))
             {
                 progression = progressions[section] = new int[ProgressionLength];
-                for (int i = 0; i < progression.Length; ++i) progression[i] = 1;
-                generateProgression(section, ref progression);
-
-                // Log the progression
-                //string log = section + " Progression:";
-                //for (int i = 0; i < progression.Length; ++i) log += " " + progression[i];
-                //Debug.Log(log);
+                generateProgressionCallback(section, ref progression);
             }
 
-            return progression[index] - 1;
+            return progression[index];
         }
 
-        public virtual void Restart()
+        public void Restart()
         {
-            progressions = new Dictionary<SectionType, int[]>();
+            progressions.Clear();
         }
-
-        protected abstract void generateProgression(SectionType section, ref int[] progression);
     }
 }

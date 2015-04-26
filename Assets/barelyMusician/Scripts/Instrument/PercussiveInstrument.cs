@@ -45,7 +45,7 @@ namespace BarelyAPI
             }
         }
 
-        // TODO: Note structure should be restructured!
+        // TODO(anokta): Note structure should be restructured!
         protected override void noteOn(Note note)
         {
             int index = (int)(note.Index - (int)rootNote) / 12;

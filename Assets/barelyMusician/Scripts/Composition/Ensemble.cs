@@ -57,8 +57,11 @@ namespace BarelyAPI
 
             currentSection = SectionType.NONE;
 
-            macro = new DefaultMacroGenerator(32, true);
-            meso = new DefaultMesoGenerator(sequencer);
+            macro = new MacroGenerator(32, true);
+            meso = new MesoGenerator(sequencer);
+
+            macro.GenerateSequenceCallback = delegate(ref string sequence) { sequence.Replace(' ', 'I'); };
+            meso.GenerateProgressionCallback = delegate(SectionType type, ref int[] progression) { progression.Initialize(); };
 
             performers = GetComponentsInChildren<Performer>();
         }

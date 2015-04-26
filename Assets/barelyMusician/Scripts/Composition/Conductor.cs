@@ -82,7 +82,7 @@ namespace BarelyAPI
         ModeGenerator mode;
         public float Mode
         {
-            set { mode.GenerateScale(value); }
+            set { mode.SetMode(value); }
         }
 
         // Articulation
@@ -139,7 +139,22 @@ namespace BarelyAPI
         {
 			sequencer = GetComponent<Sequencer> ();
 
-            mode = new DefaultModeGenerator();
+            mode = new ModeGenerator();
+            mode.GenerateScaleCallback = delegate(float stressValue)
+            {
+                if (stressValue < 0.25f)
+                {
+                    mode.SetScale(MusicalScale.MAJOR, MusicalMode.IONIAN);
+                }
+                else if (stressValue < 0.5f)
+                {
+                    mode.SetScale(MusicalScale.NATURAL_MINOR, MusicalMode.IONIAN);
+                }
+                else
+                {
+                    mode.SetScale(MusicalScale.HARMONIC_MINOR, MusicalMode.IONIAN);
+                }
+            };
 
             Energy = energyTarget = energy;
             Stress = stressTarget = stress;
