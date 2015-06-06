@@ -12,7 +12,7 @@ namespace BarelyAPI
 {
     public class Oscillator : UGen
     {
-        // Wave type
+        // Wave type.
         OscillatorType type;
         public OscillatorType Type
         {
@@ -23,35 +23,35 @@ namespace BarelyAPI
             set
             {
                 type = value;
-                    
+
                 switch (type)
                 {
-                    case OscillatorType.SINE:
+                    case OscillatorType.Sine:
                         oscFunc = sine;
                         break;
-                    case OscillatorType.COS:
+                    case OscillatorType.Cosine:
                         oscFunc = cos;
                         break;
-                    case OscillatorType.SAW:
+                    case OscillatorType.Saw:
                         oscFunc = saw;
                         break;
-                    case OscillatorType.SQUARE:
+                    case OscillatorType.Square:
                         oscFunc = square;
                         break;
-                    case OscillatorType.PULSE:
+                    case OscillatorType.Pulse:
                         oscFunc = pulse;
                         break;
-                    case OscillatorType.TRIANGLE:
+                    case OscillatorType.Triangle:
                         oscFunc = triangle;
                         break;
-                    case OscillatorType.NOISE:
+                    case OscillatorType.Noise:
                         oscFunc = noise;
                         break;
                 }
             }
         }
 
-        // Pulse duty (0. - 1.)
+        // Pulse duty (0. - 1.).
         float duty;
         public float PulseDuty
         {
@@ -75,7 +75,6 @@ namespace BarelyAPI
         {
             return oscFunc();
         }
-
 
         float sine()
         {
@@ -150,8 +149,8 @@ namespace BarelyAPI
         }
     }
 
-    public enum OscillatorType 
-    { 
-        SINE, COS, SAW, SQUARE, PULSE, TRIANGLE, NOISE 
+    public enum OscillatorType
+    {
+        Sine, Cosine, Saw, Square, Pulse, Triangle, Noise
     };
 }

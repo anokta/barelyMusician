@@ -11,7 +11,7 @@ namespace BarelyAPI
 {
     public class Sampler : UGen
     {
-        // Sample raw data
+        // Sample raw data.
         float[] sampleData;
         float samplingRatio;
         public AudioClip Sample
@@ -66,15 +66,14 @@ namespace BarelyAPI
 
         public override float Next()
         {
+            output = sampleData[(int)(phase)];
+
+            phase += (frequency / rootFrequency) * samplingRatio;
             if (phase >= sampleData.Length)
             {
                 if (loop) phase -= sampleData.Length;
                 else return 0.0f;
             }
-
-            output = sampleData[(int)(phase)];
-
-            phase += (frequency / rootFrequency) * samplingRatio;
 
             return output;
         }

@@ -7,9 +7,10 @@
 
 namespace BarelyAPI
 {
+    // Unit generator interface.
     public abstract class UGen
     {
-        // Frequency (Hz)
+        // Frequency (Hz).
         protected float frequency;
         public float Frequency
         {
@@ -17,20 +18,21 @@ namespace BarelyAPI
             set { frequency = value; }
         }
 
-        // Internal clock
+        // Internal clock.
         protected float phase;
 
-        // Final output
+        // Final output.
         protected float output;
-
-        // Compute next sample
-        public abstract float Next();
 
         protected UGen()
         {
             Reset();
         }
 
+        // Compute next sample.
+        public abstract float Next();
+
+        // Reset the generator.
         public virtual void Reset()
         {
             phase = 0.0f;

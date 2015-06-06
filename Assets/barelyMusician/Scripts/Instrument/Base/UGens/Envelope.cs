@@ -11,7 +11,7 @@ namespace BarelyAPI
 {
     public class Envelope : UGen
     {
-        // Attack (ms)
+        // Attack (ms).
         float attack;
         public float Attack
         {
@@ -19,7 +19,7 @@ namespace BarelyAPI
             set { attack = 1.0f / value; }
         }
 
-        // Decay (ms)
+        // Decay (ms).
         float decay;
         public float Decay
         {
@@ -27,7 +27,7 @@ namespace BarelyAPI
             set { decay = 1.0f / value; }
         }
 
-        // Sustain (0. - 1.)
+        // Sustain (0. - 1.).
         float sustain;
         public float Sustain
         {
@@ -35,7 +35,7 @@ namespace BarelyAPI
             set { sustain = value; }
         }
 
-        // Release (ms)
+        // Release (ms).
         float release;
         public float Release
         {
@@ -44,7 +44,7 @@ namespace BarelyAPI
         }
         float releaseOutput;
 
-        // Envelope state
+        // Envelope state.
         enum EnvelopeState { ATTACK, DECAY, SUSTAIN, RELEASE, OFF };
         EnvelopeState state;
         EnvelopeState State
