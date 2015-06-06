@@ -13,16 +13,24 @@ namespace BarelyAPI
     public static class AudioProperties
     {
         // System sampling rate.
-        public static int SampleRate;
+        private static int sampleRate;
+        public static int SampleRate
+        {
+            get { return sampleRate; }
+        }
 
         // System sampling interval (1 / SampleRate).
-        public static float Interval;
+        private static float interval;
+        public static float Interval
+        {
+            get { return interval; }
+        }
 
         static AudioProperties()
         {
             AudioConfiguration config = AudioSettings.GetConfiguration();
-            SampleRate = config.sampleRate;
-            Interval = 1.0f / SampleRate;
+            sampleRate = config.sampleRate;
+            interval = 1.0f / sampleRate;
         }
     }
 }
