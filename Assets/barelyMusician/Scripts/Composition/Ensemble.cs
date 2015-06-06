@@ -115,8 +115,8 @@ namespace BarelyAPI
             {
                 foreach (Performer performer in performers)
                 {
-                    performer.GenerateBar(currentSection, sequencer.CurrentBar,
-                        meso.GetHarmonic(currentSection, sequencer.CurrentBar));
+                    performer.GenerateBar(
+                        currentSection, sequencer.CurrentBar, meso.GetHarmonic(currentSection, sequencer.CurrentBar));
                 }
             }
         }

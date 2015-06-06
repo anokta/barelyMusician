@@ -34,8 +34,7 @@ namespace BarelyAPI
 
             for (int i = 0; i < voiceCount; ++i)
             {
-                voices.Add(new Voice(new Oscillator(oscType),
-                    new Envelope(attack, decay, sustain, release)));
+                voices.Add(new Voice(new Oscillator(oscType), new Envelope(attack, decay, sustain, release)));
             }
         }
     }
