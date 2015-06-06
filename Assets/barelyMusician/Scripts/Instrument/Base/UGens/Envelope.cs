@@ -86,13 +86,13 @@ namespace BarelyAPI
                     break;
 
                 case EnvelopeState.ATTACK:
-                    phase += AudioProperties.INTERVAL * attack;
+                    phase += AudioProperties.Interval * attack;
                     output = Mathf.Lerp(0.0f, 1.0f, phase);
                     if (phase >= 1.0f) State = EnvelopeState.DECAY;
                     break;
 
                 case EnvelopeState.DECAY:
-                    phase += AudioProperties.INTERVAL * decay;
+                    phase += AudioProperties.Interval * decay;
                     output = Mathf.Lerp(1.0f, sustain, phase);
                     if (phase >= 1.0f) State = EnvelopeState.SUSTAIN;
                     break;
@@ -102,7 +102,7 @@ namespace BarelyAPI
                     break;
 
                 case EnvelopeState.RELEASE:
-                    phase += AudioProperties.INTERVAL * release;
+                    phase += AudioProperties.Interval * release;
                     output = Mathf.Lerp(releaseOutput, 0.0f, phase);
                     if (phase >= 1.0) State = EnvelopeState.OFF;
                     break;

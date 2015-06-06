@@ -139,10 +139,10 @@ namespace BarelyAPI
             Byte[] channels = BitConverter.GetBytes(two);
             fileStream.Write(channels, 0, 2);
 
-            Byte[] sampleRate = BitConverter.GetBytes(AudioProperties.SAMPLE_RATE);
+            Byte[] sampleRate = BitConverter.GetBytes(AudioProperties.SampleRate);
             fileStream.Write(sampleRate, 0, 4);
 
-            Byte[] byteRate = BitConverter.GetBytes(AudioProperties.SAMPLE_RATE * two * 2); // sampleRate * bytesPerSample*number of channels, here 44100*2*2
+            Byte[] byteRate = BitConverter.GetBytes(AudioProperties.SampleRate * two * 2); // sampleRate * bytesPerSample*number of channels, here 44100*2*2
             fileStream.Write(byteRate, 0, 4);
 
             UInt16 blockAlign = (ushort)(two * 2);

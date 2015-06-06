@@ -60,6 +60,7 @@ namespace BarelyAPI
             macro = new MacroGenerator(32, true);
             meso = new MesoGenerator(sequencer);
 
+            // TODO(anokta): Move these outside?
             macro.GenerateSequenceCallback = delegate(ref string sequence) { sequence.Replace(' ', 'I'); };
             meso.GenerateProgressionCallback = delegate(SectionType type, ref int[] progression) { progression.Initialize(); };
 

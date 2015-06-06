@@ -86,7 +86,7 @@ namespace BarelyAPI
 
         float pulseInterval
         {
-            get { return 240.0f * AudioProperties.SAMPLE_RATE / PulseCount / Tempo; }
+            get { return 240.0f * AudioProperties.SampleRate / PulseCount / Tempo; }
         }
 
         AudioSource audioSource;

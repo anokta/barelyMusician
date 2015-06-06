@@ -29,7 +29,7 @@ namespace BarelyAPI
                 sampleData = new float[value.samples];
                 value.GetData(sampleData, 0);
 
-                samplingRatio = value.frequency / AudioProperties.SAMPLE_RATE;
+                samplingRatio = value.frequency / AudioProperties.SampleRate;
             }
         }
 
