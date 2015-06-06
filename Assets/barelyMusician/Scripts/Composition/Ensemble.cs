@@ -18,7 +18,7 @@ namespace BarelyAPI
     {
         // Master volume
         [SerializeField]
-        [Range (0.0f, 1.0f)]
+        [Range(0.0f, 1.0f)]
         float masterVolume = 1.0f;
         public float MasterVolume
         {
@@ -61,8 +61,14 @@ namespace BarelyAPI
             meso = new MesoGenerator(sequencer);
 
             // TODO(anokta): Move these outside?
-            macro.GenerateSequenceCallback = delegate(ref string sequence) { sequence.Replace(' ', 'I'); };
-            meso.GenerateProgressionCallback = delegate(SectionType type, ref int[] progression) { progression.Initialize(); };
+            macro.GenerateSequenceCallback = delegate(ref string sequence)
+            {
+                sequence.Replace(' ', 'I');
+            };
+            meso.GenerateProgressionCallback = delegate(SectionType type, ref int[] progression)
+            {
+                progression.Initialize();
+            };
 
             performers = GetComponentsInChildren<Performer>();
         }
@@ -109,7 +115,8 @@ namespace BarelyAPI
             {
                 foreach (Performer performer in performers)
                 {
-                    performer.GenerateBar(currentSection, sequencer.CurrentBar, meso.GetHarmonic(currentSection, sequencer.CurrentBar));
+                    performer.GenerateBar(currentSection, sequencer.CurrentBar,
+                        meso.GetHarmonic(currentSection, sequencer.CurrentBar));
                 }
             }
         }

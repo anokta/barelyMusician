@@ -21,26 +21,26 @@ namespace BarelyAPI
         {
             get { return fundamentalKey; }
             set { fundamentalKey = value; }
-		}
+        }
 
-		// Tempo (BPM)
-		[SerializeField]
-		int initialTempo = 120;
-		public int Tempo
-		{
-			get { return initialTempo; }
-			set
-			{
-				initialTempo = value;
-				sequencer.Tempo = (int)(initialTempo * TempoMultiplier);
-			}
-		}
+        // Tempo (BPM)
+        [SerializeField]
+        int initialTempo = 120;
+        public int Tempo
+        {
+            get { return initialTempo; }
+            set
+            {
+                initialTempo = value;
+                sequencer.Tempo = (int)(initialTempo * TempoMultiplier);
+            }
+        }
 
         public Mood Mood;
 
         // Arousal (Passive - Active)
         [SerializeField]
-        [Range (0.0f, 1.0f)]
+        [Range(0.0f, 1.0f)]
         float energy = 0.5f;
         float energyTarget, energyInterpolationSpeed;
         public float Energy
@@ -131,13 +131,13 @@ namespace BarelyAPI
         {
             get { return pitchHeight; }
             set { pitchHeight = 3.0f * value - 2.0f; }
-		}
-		
-		Sequencer sequencer;
+        }
+
+        Sequencer sequencer;
 
         void Awake()
         {
-			sequencer = GetComponent<Sequencer> ();
+            sequencer = GetComponent<Sequencer>();
 
             mode = new ModeGenerator();
             mode.GenerateScaleCallback = delegate(float stressValue)
@@ -164,17 +164,21 @@ namespace BarelyAPI
         {
             if (energy != energyTarget)
             {
-                if (Mathf.Abs(energy - energyTarget) < 0.01f * energyInterpolationSpeed * Time.deltaTime)
+                if (Mathf.Abs(energy - energyTarget) <
+                    0.01f * energyInterpolationSpeed * Time.deltaTime)
                     Energy = energyTarget;
                 else
-                    Energy = Mathf.Lerp(energy, energyTarget, energyInterpolationSpeed * Time.deltaTime);
+                    Energy =
+                        Mathf.Lerp(energy, energyTarget, energyInterpolationSpeed * Time.deltaTime);
             }
             if (stress != stressTarget)
             {
-                if (Mathf.Abs(stress - stressTarget) < 0.01f * stressInterpolationSpeed * Time.deltaTime)
+                if (Mathf.Abs(stress - stressTarget) <
+                    0.01f * stressInterpolationSpeed * Time.deltaTime)
                     Stress = stressTarget;
                 else
-                    Stress = Mathf.Lerp(stress, stressTarget, stressInterpolationSpeed * Time.deltaTime);
+                    Stress =
+                        Mathf.Lerp(stress, stressTarget, stressInterpolationSpeed * Time.deltaTime);
             }
         }
 
@@ -218,7 +222,8 @@ namespace BarelyAPI
         public void SetEnergy(float energy, float smoothness = 0.0f)
         {
             energyTarget = Math.Max(-1.0f, Math.Min(1.0f, energy));
-            energyInterpolationSpeed = (smoothness == 0.0f) ? 1.0f : 1.0f / (smoothness * smoothness);
+            energyInterpolationSpeed =
+                (smoothness == 0.0f) ? 1.0f : 1.0f / (smoothness * smoothness);
 
             if (smoothness == 0.0f & Energy != energy) Energy = energyTarget;
         }
@@ -226,7 +231,8 @@ namespace BarelyAPI
         public void SetStress(float stress, float smoothness = 0.0f)
         {
             stressTarget = Math.Max(-1.0f, Math.Min(1.0f, stress));
-            stressInterpolationSpeed = (smoothness == 0.0f) ? 1.0f : 1.0f / (smoothness * smoothness);
+            stressInterpolationSpeed =
+                (smoothness == 0.0f) ? 1.0f : 1.0f / (smoothness * smoothness);
 
             if (smoothness == 0.0f & Stress != stress) Stress = stressTarget;
         }
@@ -243,15 +249,23 @@ namespace BarelyAPI
 
             LoudnessVariance = (energy + stress) / 2.0f;
             PitchHeight = energy * 0.25f + (1.0f - stress) * 0.75f;
-            HarmonicCurve = (stress > 0.5f) ? (0.75f * (1.0f - stress) + 0.25f * (1.0f - energy)) : 1.0f;
+            HarmonicCurve =
+                (stress > 0.5f) ? (0.75f * (1.0f - stress) + 0.25f * (1.0f - energy)) : 1.0f;
         }
 
         public NoteMeta TransformNote(NoteMeta meta)
         {
-            float index = getNote((Mathf.RoundToInt(harmonicCurve) != 0 ? Mathf.RoundToInt(harmonicCurve) * meta.Index : meta.Index) + Mathf.RoundToInt(pitchHeight) / 2 * ModeGenerator.SCALE_LENGTH);
+            float index =
+                getNote((Mathf.RoundToInt(harmonicCurve) != 0 ?
+                Mathf.RoundToInt(harmonicCurve) * meta.Index : meta.Index) +
+                Mathf.RoundToInt(pitchHeight) / 2 * ModeGenerator.SCALE_LENGTH);
             float offset = meta.Offset;
-            float duration = Mathf.Max(0.0f, RandomNumber.NextNormal(meta.Duration * articulationMult, meta.Duration * articulationMult * articulationVariance));
-            float loudness = Mathf.Max(0.0f, Mathf.Min(1.0f, RandomNumber.NextNormal(meta.Loudness * loudnessMult, meta.Loudness * loudnessMult * loudnessVariance)));
+            float duration = Mathf.Max(
+                0.0f, RandomNumber.NextNormal(meta.Duration * articulationMult,
+                meta.Duration * articulationMult * articulationVariance));
+            float loudness = Mathf.Max(
+                0.0f, Mathf.Min(1.0f, RandomNumber.NextNormal(meta.Loudness * loudnessMult,
+                meta.Loudness * loudnessMult * loudnessVariance)));
 
             return new NoteMeta(index, offset, duration, loudness);
         }

@@ -22,7 +22,7 @@ namespace BarelyAPI
                 {
                     sampleData = new float[1];
                     samplingRatio = 0.0f;
-                    
+
                     return;
                 }
 

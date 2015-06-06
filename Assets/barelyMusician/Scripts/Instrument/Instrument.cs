@@ -29,10 +29,10 @@ namespace BarelyAPI
                 attack = Mathf.Max(MIN_ONSET, value);
 
                 if (voices != null)
-                foreach (Voice voice in voices)
-                {
-                    voice.Envelope.Attack = attack;
-                }
+                    foreach (Voice voice in voices)
+                    {
+                        voice.Envelope.Attack = attack;
+                    }
             }
         }
         public float Decay
@@ -42,11 +42,11 @@ namespace BarelyAPI
             {
                 decay = value;
 
-                if(voices != null)
-                foreach (Voice voice in voices)
-                {
-                    voice.Envelope.Decay = decay;
-                }
+                if (voices != null)
+                    foreach (Voice voice in voices)
+                    {
+                        voice.Envelope.Decay = decay;
+                    }
             }
         }
         public float Sustain
@@ -57,10 +57,10 @@ namespace BarelyAPI
                 sustain = value;
 
                 if (voices != null)
-                foreach (Voice voice in voices)
-                {
-                    voice.Envelope.Sustain = sustain;
-                }
+                    foreach (Voice voice in voices)
+                    {
+                        voice.Envelope.Sustain = sustain;
+                    }
             }
         }
         public float Release
@@ -71,10 +71,10 @@ namespace BarelyAPI
                 release = value;
 
                 if (voices != null)
-                foreach (Voice voice in voices)
-                {
-                    voice.Envelope.Release = release;
-                }
+                    foreach (Voice voice in voices)
+                    {
+                        voice.Envelope.Release = release;
+                    }
             }
         }
 

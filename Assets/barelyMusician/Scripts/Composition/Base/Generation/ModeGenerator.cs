@@ -50,7 +50,11 @@ namespace BarelyAPI
 
             float noteOffset = currentScale[scaleIndex] + octaveOffset * OCTAVE;
             if (scaleOffset - scaleIndex > 0.0f)
-                noteOffset += (scaleOffset - scaleIndex) * (currentScale[(scaleIndex + 1) % currentScale.Length] + ((scaleIndex + 1) / currentScale.Length) * OCTAVE - currentScale[scaleIndex]);
+            {
+                noteOffset += (scaleOffset - scaleIndex) * 
+                    (currentScale[(scaleIndex + 1) % currentScale.Length] + 
+                    ((scaleIndex + 1) / currentScale.Length) * OCTAVE - currentScale[scaleIndex]);
+            }
 
             return noteOffset;
         }
@@ -69,7 +73,8 @@ namespace BarelyAPI
 
             for (int i = 0; i < currentScale.Length; ++i)
             {
-                currentScale[i] = scale[(i + offset) % scale.Length] + ((i + offset) / currentScale.Length) * OCTAVE;
+                currentScale[i] = scale[(i + offset) % scale.Length] + 
+                    ((i + offset) / currentScale.Length) * OCTAVE;
             }
         }
     }

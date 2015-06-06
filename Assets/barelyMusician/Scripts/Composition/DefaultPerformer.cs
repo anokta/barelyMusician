@@ -8,7 +8,8 @@ namespace BarelyAPI
     {
         int[] pattern = { 0, 2, 4, 7, 4, 8 };
 
-        protected override void generateLine(SectionType section, int bar, int harmonic, ref List<NoteMeta> line)
+        protected override void generateLine(SectionType section, int bar, int harmonic,
+            ref List<NoteMeta> line)
         {
             switch (bar)
             {

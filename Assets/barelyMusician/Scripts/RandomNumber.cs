@@ -26,9 +26,10 @@ namespace BarelyAPI
         public static float NextNormal(float mean = 0.0f, float deviation = 1.0f)
         {
             // using Box-Muller transform
-            float standart = (float)(Math.Sqrt(-2.0 * Math.Log(rand.NextDouble())) * Math.Sin(2.0 * Math.PI * rand.NextDouble()));
+            float standart = (float)(Math.Sqrt(-2.0 * Math.Log(rand.NextDouble())) *
+                Math.Sin(2.0 * Math.PI * rand.NextDouble()));
 
-            return mean + deviation * standart; 
+            return mean + deviation * standart;
         }
     }
 }

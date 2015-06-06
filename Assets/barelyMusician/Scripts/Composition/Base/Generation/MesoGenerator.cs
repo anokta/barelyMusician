@@ -28,7 +28,7 @@ namespace BarelyAPI
             get { return sequencer.BarCount; }
         }
         Dictionary<SectionType, int[]> progressions;
-       
+
         public MesoGenerator(Sequencer sequencer)
         {
             this.sequencer = sequencer;

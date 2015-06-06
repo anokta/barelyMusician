@@ -40,7 +40,8 @@ namespace BarelyAPI
 
             for (int i = 0; i < voiceCount; ++i)
             {
-                voices.Add(new Voice(new Sampler(sample, sustained, new Note((int)rootNote).Pitch), new Envelope(attack, decay, sustain, release)));
+                voices.Add(new Voice(new Sampler(sample, sustained, new Note((int)rootNote).Pitch),
+                    new Envelope(attack, decay, sustain, release)));
             }
         }
     }

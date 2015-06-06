@@ -16,7 +16,7 @@ namespace BarelyAPI
         // Event dispatcher
         public delegate void SequencerEvent(Sequencer sequencer);
         event SequencerEvent OnNextSection, OnNextBar, OnNextBeat, OnNextPulse;
-        
+
         // Beats per minute
         public int Tempo = 120;
 
@@ -76,12 +76,13 @@ namespace BarelyAPI
         // Beat length (in pulses)
         public int BeatLength
         {
-            get { return PulseCount / (int) NoteType; }
+            get { return PulseCount / (int)NoteType; }
         }
-        
+
         public int MinuteToSections(float minutes)
         {
-            return Mathf.RoundToInt((minutes * Tempo * (int) NoteType / 4.0f) / (BarCount * BeatCount));
+            return Mathf.RoundToInt((minutes * Tempo * (int)NoteType / 4.0f) /
+                (BarCount * BeatCount));
         }
 
         float pulseInterval
@@ -143,7 +144,7 @@ namespace BarelyAPI
         {
             OnNextPulse += pulseEvent;
         }
-        
+
         public void RemoveSectionListener(SequencerEvent sectionEvent)
         {
             OnNextSection -= sectionEvent;
@@ -235,5 +236,8 @@ namespace BarelyAPI
         }
     }
 
-    public enum NoteType { WHOLE_NOTE = 1, HALF_NOTE = 2, QUARTER_NOTE = 4, EIGHTH_NOTE = 8, SIXTEENTH_NOTE = 16 }
+    public enum NoteType
+    {
+        WHOLE_NOTE = 1, HALF_NOTE = 2, QUARTER_NOTE = 4, EIGHTH_NOTE = 8, SIXTEENTH_NOTE = 16
+    }
 }
