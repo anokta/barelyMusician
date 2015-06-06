@@ -81,5 +81,7 @@ namespace BarelyAPI
 
     public enum SectionType
     {
+        INTRO = 'I', VERSE = 'V', PRE_CHORUS = 'P', CHORUS = 'C', BRIDGE = 'B', OUTRO = 'O',
+        END = '.', NONE = ' '
     }
 }
