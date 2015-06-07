@@ -61,7 +61,7 @@ namespace BarelyAPI
 
         Func<float> oscFunc;
 
-        static float TWO_PI = 2.0f * Mathf.PI;
+        static float TwoPi = 2.0f * Mathf.PI;
         static System.Random rand = new System.Random();
 
 
@@ -78,7 +78,7 @@ namespace BarelyAPI
 
         float sine()
         {
-            output = Mathf.Sin(phase * TWO_PI);
+            output = Mathf.Sin(phase * TwoPi);
 
             if (phase >= 1.0f) phase -= 1.0f;
             phase += frequency * AudioProperties.Interval;
@@ -88,7 +88,7 @@ namespace BarelyAPI
 
         float cos()
         {
-            output = Mathf.Cos(phase * TWO_PI);
+            output = Mathf.Cos(phase * TwoPi);
 
             if (phase >= 1.0f) phase -= 1.0f;
             phase += frequency * AudioProperties.Interval;

@@ -13,7 +13,7 @@ namespace BarelyAPI
 {
     public abstract class Instrument : MonoBehaviour
     {
-        public static float MIN_ONSET = 0.01f;
+        public static float MinOnset = 0.01f;
 
         // Instrument Voices
         protected List<Voice> voices;
@@ -26,7 +26,7 @@ namespace BarelyAPI
             get { return attack; }
             set
             {
-                attack = Mathf.Max(MIN_ONSET, value);
+                attack = Mathf.Max(MinOnset, value);
 
                 if (voices != null)
                     foreach (Voice voice in voices)

@@ -144,15 +144,15 @@ namespace BarelyAPI
             {
                 if (stressValue < 0.25f)
                 {
-                    mode.SetScale(MusicalScale.MAJOR, MusicalMode.IONIAN);
+                    mode.SetScale(MusicalScale.Major, MusicalMode.Ionian);
                 }
                 else if (stressValue < 0.5f)
                 {
-                    mode.SetScale(MusicalScale.NATURAL_MINOR, MusicalMode.IONIAN);
+                    mode.SetScale(MusicalScale.NaturalMinor, MusicalMode.Ionian);
                 }
                 else
                 {
-                    mode.SetScale(MusicalScale.HARMONIC_MINOR, MusicalMode.IONIAN);
+                    mode.SetScale(MusicalScale.HarmonicMinor, MusicalMode.Ionian);
                 }
             };
 
@@ -250,7 +250,7 @@ namespace BarelyAPI
         {
             float index = getNote(
                 (Mathf.RoundToInt(harmonicCurve) != 0 ? Mathf.RoundToInt(harmonicCurve) * meta.Index : meta.Index) +
-                Mathf.RoundToInt(pitchHeight) / 2 * ModeGenerator.SCALE_LENGTH);
+                Mathf.RoundToInt(pitchHeight) / 2 * mode.ScaleLength);
             float offset = meta.Offset;
             float duration = Mathf.Max(0.0f, RandomNumber.NextNormal(
                 meta.Duration * articulationMult, meta.Duration * articulationMult * articulationVariance));

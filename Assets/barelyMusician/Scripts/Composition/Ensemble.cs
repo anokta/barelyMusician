@@ -55,7 +55,7 @@ namespace BarelyAPI
             sequencer.AddBeatListener(OnNextBeat);
             sequencer.AddPulseListener(OnNextPulse);
 
-            currentSection = SectionType.NONE;
+            currentSection = SectionType.None;
 
             macro = new MacroGenerator(32, true);
             meso = new MesoGenerator(sequencer);
@@ -98,7 +98,7 @@ namespace BarelyAPI
                 performer.Reset();
             }
 
-            currentSection = SectionType.NONE;
+            currentSection = SectionType.None;
 
             macro.Restart();
             meso.Restart();
@@ -111,7 +111,7 @@ namespace BarelyAPI
 
         void OnNextBar(Sequencer sequencer)
         {
-            if (currentSection != SectionType.END)
+            if (currentSection != SectionType.End)
             {
                 foreach (Performer performer in performers)
                 {

@@ -55,8 +55,8 @@ namespace BarelyAPI
 
     public enum NoteIndex
     {
-        A4 = 0, ASHARP4 = 1, B4 = 2, C4 = 3, CSHARP4 = 4, D4 = 5, DSHARP4 = 6, E4 = 7, F4 = 8, FSHARP4 = 9, G4 = 10,
-        GSHARP4 = 11
+        A4 = 0, ASharp4 = 1, B4 = 2, C4 = 3, CSharp4 = 4, D4 = 5, DSharp4 = 6, E4 = 7, F4 = 8, FSharp4 = 9, G4 = 10,
+        GSharp4 = 11
     }
 
 }

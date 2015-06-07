@@ -30,7 +30,7 @@ namespace BarelyAPI
         public int PulseCount = 32;
 
         // Note type (quarter, eigth etc.)
-        public NoteType NoteType = NoteType.QUARTER_NOTE;
+        public NoteType NoteType = NoteType.QuarterNote;
 
         // Current state
         int currentSection;
@@ -235,5 +235,8 @@ namespace BarelyAPI
         }
     }
 
-    public enum NoteType { WHOLE_NOTE = 1, HALF_NOTE = 2, QUARTER_NOTE = 4, EIGHTH_NOTE = 8, SIXTEENTH_NOTE = 16 }
+    public enum NoteType
+    {
+        WholeNote = 1, HalfNote = 2, QuarterNote = 4, EightNote = 8, SixteenthNote = 16
+    }
 }

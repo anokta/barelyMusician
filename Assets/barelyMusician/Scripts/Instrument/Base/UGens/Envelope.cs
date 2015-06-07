@@ -45,7 +45,7 @@ namespace BarelyAPI
         float releaseOutput;
 
         // Envelope state.
-        enum EnvelopeState { ATTACK, DECAY, SUSTAIN, RELEASE, OFF };
+        enum EnvelopeState { Attack, Decay, Sustain, Release, Off };
         EnvelopeState state;
         EnvelopeState State
         {
@@ -55,7 +55,7 @@ namespace BarelyAPI
             }
             set
             {
-                if (value == EnvelopeState.RELEASE)
+                if (value == EnvelopeState.Release)
                     releaseOutput = output;
 
                 phase = 0.0f;
@@ -75,36 +75,36 @@ namespace BarelyAPI
         {
             base.Reset();
 
-            State = EnvelopeState.OFF;
+            State = EnvelopeState.Off;
         }
 
         public override float Next()
         {
             switch (state)
             {
-                case EnvelopeState.OFF:
+                case EnvelopeState.Off:
                     break;
 
-                case EnvelopeState.ATTACK:
+                case EnvelopeState.Attack:
                     phase += AudioProperties.Interval * attack;
                     output = Mathf.Lerp(0.0f, 1.0f, phase);
-                    if (phase >= 1.0f) State = EnvelopeState.DECAY;
+                    if (phase >= 1.0f) State = EnvelopeState.Decay;
                     break;
 
-                case EnvelopeState.DECAY:
+                case EnvelopeState.Decay:
                     phase += AudioProperties.Interval * decay;
                     output = Mathf.Lerp(1.0f, sustain, phase);
-                    if (phase >= 1.0f) State = EnvelopeState.SUSTAIN;
+                    if (phase >= 1.0f) State = EnvelopeState.Sustain;
                     break;
 
-                case EnvelopeState.SUSTAIN:
+                case EnvelopeState.Sustain:
                     output = sustain;
                     break;
 
-                case EnvelopeState.RELEASE:
+                case EnvelopeState.Release:
                     phase += AudioProperties.Interval * release;
                     output = Mathf.Lerp(releaseOutput, 0.0f, phase);
-                    if (phase >= 1.0) State = EnvelopeState.OFF;
+                    if (phase >= 1.0) State = EnvelopeState.Off;
                     break;
             }
 
@@ -113,13 +113,13 @@ namespace BarelyAPI
 
         public void Start()
         {
-            State = EnvelopeState.ATTACK;
+            State = EnvelopeState.Attack;
         }
 
         public void Stop()
         {
-            if (State != EnvelopeState.OFF)
-                State = EnvelopeState.RELEASE;
+            if (State != EnvelopeState.Off)
+                State = EnvelopeState.Release;
         }
     }
 }

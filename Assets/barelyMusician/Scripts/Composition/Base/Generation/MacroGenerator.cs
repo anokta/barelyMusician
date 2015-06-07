@@ -32,13 +32,13 @@ namespace BarelyAPI
         bool loop;
         public bool Loop
         {
-            get;
-            set;
+            get { return loop; }
+            set { loop = value; }
         }
 
         public MacroGenerator(int length, bool loop = false)
         {
-            sectionSequence = SectionType.NONE.ToString();
+            sectionSequence = SectionType.None.ToString();
             sectionSequence.PadRight(length, sectionSequence[0]);
             Loop = loop;
 
@@ -56,12 +56,12 @@ namespace BarelyAPI
                 }
                 else
                 {
-                    return SectionType.END;
+                    return SectionType.End;
                 }
             }
 
             SectionType currentSection = (SectionType)sectionSequence[index];
-            if (currentSection == SectionType.NONE)
+            if (currentSection == SectionType.None)
             {
                 generateSequenceCallback(ref sectionSequence);
                 currentSection = (SectionType)sectionSequence[index];
@@ -74,13 +74,13 @@ namespace BarelyAPI
         public void Restart()
         {
             int length = SequenceLength;
-            sectionSequence = SectionType.NONE.ToString();
+            sectionSequence = SectionType.None.ToString();
             sectionSequence.PadRight(length, sectionSequence[0]);
         }
     }
 
     public enum SectionType
     {
-        INTRO = 'I', VERSE = 'V', PRE_CHORUS = 'P', CHORUS = 'C', BRIDGE = 'B', OUTRO = 'O', END = '.', NONE = ' '
+        Intro = 'I', Verse = 'V', PreChorus = 'P', Chorus = 'C', Bridge = 'B', Outro = 'O', End = '.', None = ' '
     }
 }
