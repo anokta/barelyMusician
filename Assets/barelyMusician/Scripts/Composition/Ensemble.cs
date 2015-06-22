@@ -43,6 +43,8 @@ public class Ensemble : MonoBehaviour {
   SectionType currentSection;
 
   void Awake () {
+    AudioProperties.Initialize();
+
     conductor = GetComponent<Conductor>();
 
     sequencer = GetComponent<Sequencer>();
