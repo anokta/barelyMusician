@@ -5,38 +5,36 @@
 //
 // ------------------------------------------------------------------------
 
-namespace BarelyAPI
-{
-    // Unit generator interface.
-    public abstract class UGen
-    {
-        // Frequency (Hz).
-        protected float frequency;
-        public float Frequency
-        {
-            get { return frequency; }
-            set { frequency = value; }
-        }
+namespace BarelyAPI {
 
-        // Internal clock.
-        protected float phase;
+// Unit generator interface.
+public abstract class UGen {
+  // Frequency (Hz).
+  protected float frequency;
 
-        // Final output.
-        protected float output;
+  public float Frequency {
+    get { return frequency; }
+    set { frequency = value; }
+  }
 
-        protected UGen()
-        {
-            Reset();
-        }
+  // Internal clock.
+  protected float phase;
 
-        // Compute next sample.
-        public abstract float Next();
+  // Final output.
+  protected float output;
 
-        // Reset the generator.
-        public virtual void Reset()
-        {
-            phase = 0.0f;
-            output = 0.0f;
-        }
-    }
+  protected UGen() {
+    Reset();
+  }
+
+  // Compute next sample.
+  public abstract float Next ();
+
+  // Reset the generator.
+  public virtual void Reset () {
+    phase = 0.0f;
+    output = 0.0f;
+  }
 }
+  
+} // namespace BarelyAPI

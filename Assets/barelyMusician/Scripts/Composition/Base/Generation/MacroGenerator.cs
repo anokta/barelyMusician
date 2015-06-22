@@ -4,83 +4,80 @@
 //     Copyright 2014 Alper Gungormusler. All rights reserved.
 //
 // ------------------------------------------------------------------------
-
 using UnityEngine;
 using System.Collections;
 
-namespace BarelyAPI
-{
-    public class MacroGenerator
-    {
-        // Sequence generator callback function.
-        public delegate void GenerateSequence(ref string sequence);
+namespace BarelyAPI {
 
-        GenerateSequence generateSequenceCallback;
-        public GenerateSequence GenerateSequenceCallback
-        {
-            set { generateSequenceCallback = value; }
-        }
+public class MacroGenerator {
+  // Sequence generator callback function.
+  public delegate void GenerateSequence(ref string sequence);
 
-        // Sequence of sections (musical form).
-        string sectionSequence;
-        public int SequenceLength
-        {
-            get { return sectionSequence.Length; }
-        }
+  GenerateSequence generateSequenceCallback;
 
-        // Should the sequence loop?
-        bool loop;
-        public bool Loop
-        {
-            get { return loop; }
-            set { loop = value; }
-        }
+  public GenerateSequence GenerateSequenceCallback {
+    set { generateSequenceCallback = value; }
+  }
 
-        public MacroGenerator(int length, bool loop = false)
-        {
-            sectionSequence = SectionType.None.ToString();
-            sectionSequence.PadRight(length, sectionSequence[0]);
-            Loop = loop;
+  // Sequence of sections (musical form).
+  string sectionSequence;
 
-            Restart();
-        }
+  public int SequenceLength {
+    get { return sectionSequence.Length; }
+  }
 
-        // Returns the section corresponding to the |index|.
-        public SectionType GetSection(int index)
-        {
-            if (index >= sectionSequence.Length)
-            {
-                if (loop)
-                {
-                    index %= sectionSequence.Length;
-                }
-                else
-                {
-                    return SectionType.End;
-                }
-            }
+  // Should the sequence loop?
+  bool loop;
 
-            SectionType currentSection = (SectionType)sectionSequence[index];
-            if (currentSection == SectionType.None)
-            {
-                generateSequenceCallback(ref sectionSequence);
-                currentSection = (SectionType)sectionSequence[index];
-            }
+  public bool Loop {
+    get { return loop; }
+    set { loop = value; }
+  }
 
-            return currentSection;
-        }
+  public MacroGenerator(int length, bool loop = false) {
+    sectionSequence = SectionType.None.ToString();
+    sectionSequence.PadRight(length, sectionSequence[0]);
+    Loop = loop;
 
-        // Flushes the generator.
-        public void Restart()
-        {
-            int length = SequenceLength;
-            sectionSequence = SectionType.None.ToString();
-            sectionSequence.PadRight(length, sectionSequence[0]);
-        }
+    Restart();
+  }
+
+  // Returns the section corresponding to the |index|.
+  public SectionType GetSection (int index) {
+    if (index >= sectionSequence.Length) {
+      if (loop) {
+        index %= sectionSequence.Length;
+      } else {
+        return SectionType.End;
+      }
     }
 
-    public enum SectionType
-    {
-        Intro = 'I', Verse = 'V', PreChorus = 'P', Chorus = 'C', Bridge = 'B', Outro = 'O', End = '.', None = ' '
+    SectionType currentSection = (SectionType)sectionSequence[index];
+    if (currentSection == SectionType.None) {
+      generateSequenceCallback(ref sectionSequence);
+      currentSection = (SectionType)sectionSequence[index];
     }
+
+    return currentSection;
+  }
+
+  // Flushes the generator.
+  public void Restart () {
+    int length = SequenceLength;
+    sectionSequence = SectionType.None.ToString();
+    sectionSequence.PadRight(length, sectionSequence[0]);
+  }
 }
+
+public enum SectionType {
+  Intro = 'I',
+  Verse = 'V',
+  PreChorus = 'P',
+  Chorus = 'C',
+  Bridge = 'B',
+  Outro = 'O',
+  End = '.',
+  None = ' '
+}
+  
+} // namespace BarelyAPI

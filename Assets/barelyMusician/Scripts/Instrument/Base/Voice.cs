@@ -4,70 +4,63 @@
 //     Copyright 2014 Alper Gungormusler. All rights reserved.
 //
 // ------------------------------------------------------------------------
-
 using UnityEngine;
 using System.Collections;
 
-namespace BarelyAPI
-{
-    public class Voice
-    {
-        // Output level
-        float gain;
-        public float Gain
-        {
-            set { gain = value; }
-        }
+namespace BarelyAPI {
 
-        // Frequency
-        public float Pitch
-        {
-            get { return ugen.Frequency; }
-            set { ugen.Frequency = value; }
-        }
+public class Voice {
+  // Output level
+  float gain;
 
-        // Envelope
-        Envelope envelope;
-        public Envelope Envelope
-        {
-            get { return envelope; }
-        }
+  public float Gain {
+    set { gain = value; }
+  }
 
-        // Sound generator
-        UGen ugen;
-        public UGen Ugen
-        {
-            get { return Ugen; }
-        }
+  // Frequency
+  public float Pitch {
+    get { return ugen.Frequency; }
+    set { ugen.Frequency = value; }
+  }
 
-        public Voice(UGen soundGenerator, Envelope soundEnvelope)
-        {
-            ugen = soundGenerator;
-            envelope = soundEnvelope;
-        }
+  // Envelope
+  Envelope envelope;
 
-        public void Start()
-        {
-            ugen.Reset();
+  public Envelope Envelope {
+    get { return envelope; }
+  }
 
-            envelope.Start();
-        }
+  // Sound generator
+  UGen ugen;
 
-        public void Stop()
-        {
-            envelope.Stop();
-        }
+  public UGen Ugen {
+    get { return Ugen; }
+  }
 
-        public void StopImmediately()
-        {
-            envelope.Reset();
+  public Voice(UGen soundGenerator, Envelope soundEnvelope) {
+    ugen = soundGenerator;
+    envelope = soundEnvelope;
+  }
 
-            ugen.Reset();
-        }
+  public void Start () {
+    ugen.Reset();
 
-        public float ProcessNext()
-        {
-            return gain * envelope.Next() * ugen.Next();
-        }
-    }
+    envelope.Start();
+  }
+
+  public void Stop () {
+    envelope.Stop();
+  }
+
+  public void StopImmediately () {
+    envelope.Reset();
+
+    ugen.Reset();
+  }
+
+  public float ProcessNext () {
+    return gain * envelope.Next() * ugen.Next();
+  }
 }
+
+} // namespace BarelyAPI
