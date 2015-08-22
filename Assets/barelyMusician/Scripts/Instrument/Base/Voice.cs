@@ -34,7 +34,7 @@ public class Voice {
   UGen ugen;
 
   public UGen Ugen {
-    get { return Ugen; }
+    get { return ugen; }
   }
 
   public Voice(UGen soundGenerator, Envelope soundEnvelope) {
